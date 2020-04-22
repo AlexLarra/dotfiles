@@ -23,7 +23,8 @@
 
 function ruby_version
 {
-  rbenv version-name
+  version=$(rvm current)
+  echo ${version/#ruby-}
 }
 
 function git_dirty

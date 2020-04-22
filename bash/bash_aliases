@@ -54,4 +54,5 @@ alias bu='bundle update'
 alias rr='bundle exec rake routes'
 alias rt='bundle exec rake -T --all'
 
-alias notify="notify-send 'Listo' 'Al lío wei!!!'"
+alias notify="notify-send 'Listo' 'Aprieta!!!'"
+alias fix_update='sudo rm /var/lib/pacman/db.lck'
