@@ -57,5 +57,5 @@ alias rt='bundle exec rake -T --all'
 alias notify="notify-send 'Listo' 'Aprieta!!!'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
-alias vpn_on="sudo bash -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass .vpn_auth &'"
+alias vpn_on="sudo bash -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /home/alex/.vpn_auth &'"
 alias vpn_off="sudo killall openvpn"
