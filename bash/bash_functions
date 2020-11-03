@@ -1,0 +1,15 @@
+# https://www.youtube.com/watch?v=vt33Hp-4RXg
+
+# Vim workspace
+function vw {
+  du -a ~/workspace/* | awk '{print $2}' | fzf | xargs -o $EDITOR
+}
+
+# Vim here
+function vh {
+  fzf | xargs -o -I % $EDITOR % ;
+}
+
+function rails_version {
+  rails -v | sed 's/Rails //'
+}
