@@ -387,12 +387,23 @@ Plug 'airblade/vim-gitgutter'
 highlight GitGutterAdd    guifg=#009900 ctermfg=2
 highlight GitGutterChange guifg=#bbbb00 ctermfg=3
 highlight GitGutterDelete guifg=#ff2222 ctermfg=1
-set updatetime=1000
+highlight SignColumn guibg=bg
+highlight SignColumn ctermbg=bg
+let g:gitgutter_sign_added = '+'
+let g:gitgutter_sign_modified = '>'
+let g:gitgutter_sign_removed = '-'
+let g:gitgutter_sign_removed_first_line = '^'
+let g:gitgutter_sign_modified_removed = '<'
+let g:gitgutter_override_sign_column_highlight = 1
+set updatetime=300
+" Jump between hunks
+nmap <Leader>gn <Plug>(GitGutterNextHunk)
+nmap <Leader>gp <Plug>(GitGutterPrevHunk)
 
 Plug 'ruanyl/vim-gh-line'
-let g:gh_line_map = '<leader>go'
+let g:gh_line_map = '<leader>gl'
 let g:gh_line_blame_map = '<leader>gb'
-let g:gh_repo_map = '<leader>gp'
+let g:gh_repo_map = '<leader>go'
 
 call plug#end()
 
