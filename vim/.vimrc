@@ -399,6 +399,8 @@ set updatetime=300
 " Jump between hunks
 nmap <Leader>gn <Plug>(GitGutterNextHunk)
 nmap <Leader>gp <Plug>(GitGutterPrevHunk)
+nmap <Leader>ga <Plug>(GitGutterStageHunk)
+nmap <Leader>gu <Plug>(GitGutterUndoHunk)
 
 Plug 'ruanyl/vim-gh-line'
 let g:gh_line_map = '<leader>gl'
