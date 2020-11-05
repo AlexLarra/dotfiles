@@ -169,11 +169,11 @@ try
 catch
 endtry
 
-" Maps Alt-[h,j,k,l] to resizing a window split
-map <silent> <A-h> <C-w><
-map <silent> <A-j> <C-W>-
-map <silent> <A-k> <C-W>+
-map <silent> <A-l> <C-w>>
+" Maps Ctrl-[h,j,k,l] to resizing a window split
+map <silent> <C-h> <C-w><
+map <silent> <C-j> <C-W>-
+map <silent> <C-k> <C-W>+
+map <silent> <C-l> <C-w>>
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
