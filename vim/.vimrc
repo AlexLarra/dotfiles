@@ -255,19 +255,8 @@ nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
-" Delete trailing white space on save, useful for some filetypes ;)
-fun! CleanExtraSpaces()
-    let save_cursor = getpos(".")
-    let old_query = getreg('/')
-    silent! %s/\s\+$//e
-    call setpos('.', save_cursor)
-    call setreg('/', old_query)
-endfun
-
-if has("autocmd")
-    autocmd BufWritePre *.txt,*.js,*.py,*.wiki,*.sh,*.coffee,*.rb,*.erb,*.css,*.xml,*.json :call CleanExtraSpaces()
-endif
-
+" Delete trailing white space on save
+autocmd BufWritePre * :%s/\s\+$//e
 
 " NETRW
 " https://gist.github.com/danidiaz/37a69305e2ed3319bfff9631175c5d0f
