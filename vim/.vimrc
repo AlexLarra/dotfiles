@@ -27,7 +27,7 @@ set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*,*/coverage/*
 
 "Always show current position
 set ruler
@@ -245,6 +245,32 @@ function! MyTabLine()
 endfunction
 
 set tabline=%!MyTabLine()
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Save last session
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! MakeSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  if (filewritable(b:sessiondir) != 2)
+    exe 'silent !mkdir -p ' b:sessiondir
+    redraw!
+  endif
+  let b:filename = b:sessiondir . '/session.vim'
+  exe "mksession! " . b:filename
+endfunction
+
+function! LoadSession()
+  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+  let b:sessionfile = b:sessiondir . "/session.vim"
+  if (filereadable(b:sessionfile))
+    exe 'source ' b:sessionfile
+  else
+    echo "No session loaded."
+  endif
+endfunction
+au VimEnter * nested :call LoadSession()
+au VimLeave * :call MakeSession()
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
