@@ -21,6 +21,12 @@
 #     PATH="$HOME/bin:$PATH"
 # fi
 
+set -o vi
+
+bind 'set completion-ignore-case on'
+shopt -s cdspell
+complete -d cd
+
 function ruby_version
 {
   version=$(rvm current)
@@ -54,7 +60,6 @@ BBLUE="\[\033[1;34m\]"
 BCYAN="\[\033[1;36m\]"
 BWHITE="\[\033[1;37m\]"
 
-export EDITOR='vim'
-
 # Prompt style
-export PS1="$BWHITE[\$(ruby_version)]$BBLUE \u:\w$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
+# export PS1="$BWHITE[\$(ruby_version)]$BBLUE \u:\w$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
+export PS1="$BBLUE\W$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
