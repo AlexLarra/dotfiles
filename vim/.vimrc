@@ -146,7 +146,7 @@ map <leader>tn :Texplore<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
-map <leader>t<leader> :tabnext
+map <leader>tt :tabnext<cr>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -177,9 +177,10 @@ map <silent> <C-l> <C-w>>
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 
-" ACK
-cnoreabbrev Ack Ack!
-nnoremap <Leader>a :Ack!<Space>
+" Open a new tab and search for something
+nmap <Leader>a :Ack ""<Left>
+" Inmediately search for the word under the cursor in a new tab
+nmap <Leader>A :Ack <C-r><C-w><CR>
 
 """"""""""""""""""""""""""""""
 " => Status line
@@ -270,8 +271,8 @@ function! LoadSession()
     echo "No session loaded."
   endif
 endfunction
-au VimEnter * nested :call LoadSession()
-au VimLeave * :call MakeSession()
+"au VimEnter * nested :call LoadSession()
+"au VimLeave * :call MakeSession()
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -341,6 +342,12 @@ Plug 'ruanyl/vim-gh-line'
 let g:gh_line_map = '<leader>gl'
 let g:gh_line_blame_map = '<leader>gb'
 let g:gh_repo_map = '<leader>go'
+
+Plug 'thoughtbot/vim-rspec'
+map <Leader>rf :call RunCurrentSpecFile()<CR>
+map <Leader>rt :call RunNearestSpec()<CR>
+map <Leader>rl :call RunLastSpec()<CR>
+map <Leader>ra :call RunAllSpecs()<CR>
 
 call plug#end()
 
