@@ -125,6 +125,7 @@
 --ignore-directory=is:log
 --ignore-directory=is:vendor
 --ignore-directory=is:coverage
+--ignore-directory=is:node_modules
 --literal
 --group
 #--heading

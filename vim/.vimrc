@@ -26,7 +26,8 @@ set wildmenu
 
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*,*/coverage/*
+set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
+set wildignore+=*/coverage/*,*/nodule_modules/*
 
 "Always show current position
 set ruler
@@ -88,11 +89,11 @@ catch
     colorscheme desert
 endtry
 
-" Set utf8 as standard encoding and en_US as the standard language
-set encoding=utf8
-
-" Use Unix as the standard file type
-set ffs=unix,dos,mac
+set ffs=unix
+set encoding=utf-8
+set fileencoding=utf-8
+set listchars=eol:¶
+set list
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -146,7 +147,11 @@ map <leader>tn :Texplore<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
-map <leader>tt :tabnext<cr>
+
+imap jj <Esc>
+nmap <c-s> :w<CR>
+vmap <c-s> <Esc><c-s>gv
+imap <c-s> <Esc><c-s>
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
@@ -181,6 +186,11 @@ au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g
 nmap <Leader>a :Ack ""<Left>
 " Inmediately search for the word under the cursor in a new tab
 nmap <Leader>A :Ack <C-r><C-w><CR>
+
+nmap <Leader>d :%s/<C-r><C-w>//gc<Left><Left><Left>
+
+let g:rspec_command = "!bundle exec rspec --format progress --require ~/workspace/dotfiles/code/rspec/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out {spec}"
+map <leader>q :cg quickfix.out \| cwindow<CR>
 
 """"""""""""""""""""""""""""""
 " => Status line
