@@ -8,8 +8,10 @@ function install {
   ln -sf "$dotfiles_dir/bash/bash_aliases" ~/.bash_aliases
   ln -sf "$dotfiles_dir/bash/bash_functions" ~/.bash_functions
   ln -sf "$dotfiles_dir/bash/profile" ~/.profile
-  ln -sf "$dotfiles_dir/vim/.vimrc" ~/.vimrc
-  ln -sf "$dotfiles_dir/vim/.ackrc" ~/.ackrc
+  ln -sf "$dotfiles_dir/code/vim/.vimrc" ~/.vimrc
+  ln -sf "$dotfiles_dir/code/vim/.ackrc" ~/.ackrc
+  ln -sf "$dotfiles_dir/code/vim/.gitignore" ~/.gitignore
+  git config --global core.excludesfile ~/.gitignore
 
   # provide __git_ps1 in Arch
   echo 'source /usr/share/git/completion/git-prompt.sh' >> ~/.bashrc
