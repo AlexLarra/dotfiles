@@ -63,3 +63,5 @@ BWHITE="\[\033[1;37m\]"
 # Prompt style
 # export PS1="$BWHITE[\$(ruby_version)]$BBLUE \u:\w$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
 export PS1="$BBLUE\W$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

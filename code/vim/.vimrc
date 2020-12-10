@@ -358,6 +358,9 @@ map <Leader>rt :call RunNearestSpec()<CR>
 map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
 
+Plug 'jiangmiao/auto-pairs'
+Plug 'tpope/vim-commentary'
+
 call plug#end()
 
 " Run PlugInstall if there are missing plugins
