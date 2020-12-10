@@ -202,11 +202,6 @@ function! GitBranch()
   return trim(system("git rev-parse --abbrev-ref HEAD 2>/dev/null | tr -d '\n'"))
 endfunction
 
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-
 function! StatuslineGit()
   let l:branchname = GitBranch()
   return strlen(l:branchname) > 0?'  '.l:branchname.' ':''
@@ -215,7 +210,6 @@ endfunction
 set statusline=
 "set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
-set statusline+=%{GitStatus()}
 set statusline+=%#CursorColumn#
 set statusline+=\ %f
 set statusline+=%m
