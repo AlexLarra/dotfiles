@@ -27,7 +27,7 @@ set wildmenu
 " Ignore compiled files
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
-set wildignore+=*/coverage/*,*/nodule_modules/*
+set wildignore+=*/coverage/*,*/node_modules/*
 
 "Always show current position
 set ruler
