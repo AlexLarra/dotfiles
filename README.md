@@ -12,6 +12,13 @@ Installation
 
 > source script/install.sh
 
+Programs
+-------------
+ - fish
+ - rvm
+ - git
+ - diff-so-fancy
+
 OPENVPN Configuration
 -------------
 

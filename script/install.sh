@@ -13,6 +13,7 @@ function install {
   ln -sf "$dotfiles_dir/code/git/.gitignore" ~/.gitignore
   ln -sf "$dotfiles_dir/code/git/.gitconfig" ~/.gitconfig
   ln -sf "$dotfiles_dir/code/tmux/.tmux.conf" ~/.tmux.conf
+  ln -sf "$dotfiles_dir/code/alacritty/.alacritty.yml" ~/.alacritty.yml
 
   # provide __git_ps1 in Arch
   echo 'source /usr/share/git/completion/git-prompt.sh' >> ~/.bashrc
