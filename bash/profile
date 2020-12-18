@@ -27,12 +27,6 @@ bind 'set completion-ignore-case on'
 shopt -s cdspell
 complete -d cd
 
-function ruby_version
-{
-  version=$(rvm current)
-  echo ${version/#ruby-}
-}
-
 function git_dirty
 {
   local status=$(git status --porcelain 2> /dev/null)
@@ -61,7 +55,6 @@ BCYAN="\[\033[1;36m\]"
 BWHITE="\[\033[1;37m\]"
 
 # Prompt style
-# export PS1="$BWHITE[\$(ruby_version)]$BBLUE \u:\w$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
 export PS1="$BBLUE\W$BGREEN\$(__git_ps1)$BRED\$(git_dirty)$WHITE\$ "
 
 [[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm"

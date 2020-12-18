@@ -1,5 +1,4 @@
 shell:
-  program: /bin/fish
+  program: /bin/bash
   args:
     - --login
-    - -c tmux

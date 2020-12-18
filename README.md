@@ -14,7 +14,6 @@ Installation
 
 Programs
 -------------
- - fish
  - rvm
  - git
  - diff-so-fancy
