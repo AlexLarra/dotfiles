@@ -14,6 +14,8 @@ Installation
 
 Programs
 -------------
+ - alacritty
+ - tmux
  - rvm
  - git
  - diff-so-fancy
