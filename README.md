@@ -19,6 +19,8 @@ Programs
  - rvm
  - git
  - diff-so-fancy
+ - vim
+ - gvim
 
 OPENVPN Configuration
 -------------

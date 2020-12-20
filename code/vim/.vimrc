@@ -77,8 +77,8 @@ set foldcolumn=1
 set relativenumber
 set number
 
-" Copy to clipboard selected lines. Copy all file if nothing is selected
-map <C-y> :w !xclip -sel c <CR><CR>
+" Copy to clipboard, It needs gvim to be installed
+vmap <C-y> "+y"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
