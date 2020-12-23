@@ -1,3 +1,6 @@
+source ~/.bash_aliases
+source ~/.bash_functions
+
 # provide __git_ps1 in Arch
 source /usr/share/git/completion/git-prompt.sh
 

@@ -15,8 +15,6 @@ function install {
   ln -sf "$dotfiles_dir/code/tmux/.tmux.conf" ~/.tmux.conf
   ln -sf "$dotfiles_dir/code/alacritty/.alacritty.yml" ~/.alacritty.yml
 
-  load_aliases_in_bashrc
-  load_functions_in_bashrc
   load_bash_profile_in_bashrc
 
   source ~/.bashrc
@@ -27,18 +25,6 @@ function install {
 # non-login shell does not load .bash_profile
 function load_bash_profile_in_bashrc {
   LINE='if [ -f ~/.bash_profile ]; then . ~/.bash_profile ; fi'
-  FILE=~/.bashrc
-  append_a_line_if_not_exists "$LINE" "$FILE"
-}
-
-function load_functions_in_bashrc {
-  LINE='if [ -f ~/.bash_functions ]; then . ~/.bash_functions ; fi'
-  FILE=~/.bashrc
-  append_a_line_if_not_exists "$LINE" "$FILE"
-}
-
-function load_aliases_in_bashrc {
-  LINE='if [ -f ~/.bash_aliases ]; then . ~/.bash_aliases ; fi'
   FILE=~/.bashrc
   append_a_line_if_not_exists "$LINE" "$FILE"
 }
