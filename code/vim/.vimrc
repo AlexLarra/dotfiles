@@ -193,6 +193,7 @@ nmap <Leader>A :Ack <C-r><C-w><CR>
 nmap <Leader>d :%s/<C-r><C-w>//gc<Left><Left><Left>
 
 map <Leader>sa ggVG
+map <Leader>sl _v$
 
 let g:rspec_command = "!bundle exec rspec --format progress --require ~/workspace/dotfiles/code/rspec/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out {spec}"
 map <leader>q :cg quickfix.out \| cwindow<CR>
