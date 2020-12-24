@@ -20,7 +20,10 @@ Programs
  - git
  - diff-so-fancy
  - vim
- - gvim
+ - gvim (for copy to clipboard)
+ - npm
+   - npm install --global pure-prompti: (https://github.com/sindresorhus/pure)
+     ([Solution to posible problem](https://stackoverflow.com/a/55172709/2988753))
 
 OPENVPN Configuration
 -------------

@@ -14,7 +14,8 @@ function install {
   ln -sf "$dotfiles_dir/code/git/.gitconfig" ~/.gitconfig
   ln -sf "$dotfiles_dir/code/tmux/.tmux.conf" ~/.tmux.conf
   ln -sf "$dotfiles_dir/code/alacritty/.alacritty.yml" ~/.alacritty.yml
-
+  ln -sf "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
+  ln -sf "$dotfiles_dir/zsh" ~/.zsh
   load_bash_profile_in_bashrc
 
   source ~/.bashrc
