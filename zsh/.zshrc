@@ -11,3 +11,7 @@ fpath+=('/usr/lib/node_modules/pure-prompt/functions')
 fpath+=$HOME/.zsh/pure
 autoload -U promptinit; promptinit
 prompt pure
+
+# VI mode
+bindkey -v
+bindkey "jj" vi-cmd-mode
