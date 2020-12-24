@@ -14,6 +14,12 @@ prompt pure
 
 # VI mode
 bindkey -v
+export KEYTIMEOUT=1
+
+# History in cache directory:
+HISTSIZE=10000
+SAVEHIST=10000
+HISTFILE=~/.cache/zsh/history
 
 # # Basic auto/tab complete:
 autoload -U compinit

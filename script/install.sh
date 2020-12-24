@@ -16,6 +16,8 @@ function install {
   ln -sf "$dotfiles_dir/code/alacritty/.alacritty.yml" ~/.alacritty.yml
   ln -sf "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
   ln -sf "$dotfiles_dir/zsh" ~/.zsh
+  mkdir ~/.cache/zsh # For zsh history
+
   load_bash_profile_in_bashrc
 
   source ~/.bashrc
