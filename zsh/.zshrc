@@ -10,6 +10,7 @@ fpath+=('$PWD/functions')
 fpath+=('/usr/lib/node_modules/pure-prompt/functions')
 fpath+=$HOME/.zsh/pure
 autoload -U promptinit; promptinit
+zstyle :prompt:pure:git:branch color green
 prompt pure
 
 # VI mode
