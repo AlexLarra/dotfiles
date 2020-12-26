@@ -1,4 +1,8 @@
-alias reload='source ~/.bashrc'
+alias reload="if [[ $0 == "bash"  ]]; then
+                source ~/.bashrc
+              elif [[ $0 == "zsh"  ]]; then
+                source ~/.zshrc
+              fi"
 
 alias q='exit'
 
@@ -22,7 +26,6 @@ alias df='df -h' # humanize sizes
 
 alias pubkey='more ~/.ssh/id_rsa.pub'
 alias hosts='more /etc/hosts'
-alias ip="dig +short myip.opendns.com @resolver1.opendns.com"
 
 alias tf='tail -f'
 alias devlog='tail -f log/development.log'
@@ -35,9 +38,7 @@ alias gco='git checkout'
 alias gd='git diff'
 alias gb='git branch'
 alias gs='git show'
-alias gcl='git clone'
 
-alias rb='ruby'
 alias rs='rails s'
 alias rc='rails c'
 alias rg='rails g'
@@ -46,7 +47,6 @@ alias rd='rails d'
 alias gemi='gem install --no-ri --no-rdoc'
 alias gemu='gem uninstall'
 
-alias b='bundle'
 alias be='bundle exec'
 alias bi='bundle install'
 alias bu='bundle update'
@@ -54,7 +54,7 @@ alias bu='bundle update'
 alias rr='bundle exec rake routes'
 alias rt='bundle exec rake -T --all'
 
-alias notify="notify-send 'Listo' 'Aprieta!!!'"
+alias nt="notify-send 'Listo' 'Aprieta!!!'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
 alias vpn_on="sudo bash -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /etc/openvpn/client/.vpn_auth &'"
