@@ -13,6 +13,7 @@ function install {
   ln -sf "$dotfiles_dir/code/git/.gitignore" ~/.gitignore
   ln -sf "$dotfiles_dir/code/git/.gitconfig" ~/.gitconfig
   ln -sf "$dotfiles_dir/code/tmux/.tmux.conf" ~/.tmux.conf
+  ln -sf "$dotfiles_dir/code/tmux/.tmux_work.zsh" ~/.tmux_work.zsh
   ln -sf "$dotfiles_dir/code/alacritty/.alacritty.yml" ~/.alacritty.yml
   ln -sf "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
   ln -sf "$dotfiles_dir/zsh" ~/.zsh

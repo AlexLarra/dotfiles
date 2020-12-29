@@ -4,10 +4,10 @@ alias reload="if [[ $0 == "bash"  ]]; then
                 source ~/.zshrc
               fi"
 
-alias q='exit'
-
 alias h='history'
 alias hi='history | tail -20'
+
+alias tw="tmux attach -t work || sh .tmux_work.zsh"
 
 alias l='ls -laGFh'
 alias ..='cd ..'
