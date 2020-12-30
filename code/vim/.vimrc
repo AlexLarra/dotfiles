@@ -176,11 +176,15 @@ try
 catch
 endtry
 
-" Maps Ctrl-[h,j,k,l] to resizing a window split
-map <silent> <C-h> <C-w><
-map <silent> <C-j> <C-W>-
-map <silent> <C-k> <C-W>+
-map <silent> <C-l> <C-w>>
+" Move through tabs
+nmap <M-l> gt
+nmap <M-h> gT
+
+" Move through panes
+nmap <S-j> <C-w><C-j>
+nmap <S-k> <C-w><C-k>
+nmap <S-l> <C-w><C-l>
+nmap <S-h> <C-w><C-h>
 
 " Return to last edit position when opening files (You want this!)
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -280,7 +284,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move a line of text using ALT+[jk] or Command+[jk] on mac
+" Move a line of text using ALT+[jk]
 nmap <M-j> mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
