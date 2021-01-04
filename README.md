@@ -14,6 +14,9 @@ Installation
 
 Programs
 -------------
+ - redis (set /etc/redis.conf for systemctl work in arch):
+   - supervised auto
+   - daemonize no
  - alacritty
  - tmux
  - rvm
