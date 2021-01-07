@@ -46,5 +46,12 @@ tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/my && clear' C-m
 tmux select-pane -t 1
 
+tmux new-window -t work
+tmux send-keys -t work 'cd ~/workspace/core-app && clear' c-m
+tmux split-window -v -p 25
+tmux send-keys -t work 'cd ~/workspace/core-app && clear' c-m
+tmux send-keys -t work 'bin/start' c-m
+tmux select-pane -t 1
+
 tmux select-window -t work:1
 tmux attach -t work
