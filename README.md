@@ -45,6 +45,10 @@ OPENVPN Configuration
 4 - For start on boot:
 * `systemctl enable openvpn-client@client.service`
 
+5 - Change DNS to be able to connect from everywhere (/etc/resolv.conf):
+* nameserver 162.252.172.57
+* nameserver 149.154.159.92
+
 More info:
  * https://support.surfshark.com/hc/en-us/articles/360011051133-How-to-set-up-OpenVPN-using-Linux-Terminal
  * https://account.surfshark.com/setup/manual
