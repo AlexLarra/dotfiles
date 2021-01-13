@@ -53,5 +53,9 @@ tmux send-keys -t work 'cd ~/workspace/core-app && clear' c-m
 tmux send-keys -t work 'bin/start' c-m
 tmux select-pane -t 1
 
+tmux new-window -t work
+tmux send-keys -t work 'cd ~/workspace/infrastructure && clear' c-m
+tmux send-keys -t work 'bin/crisalix-cli capistrano estetix -e staging -t deploy:pending'
+
 tmux select-window -t work:1
 tmux attach -t work
