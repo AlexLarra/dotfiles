@@ -1,5 +1,5 @@
-source ~/.bash_aliases
-source ~/.bash_functions
+source ~/.sh_aliases
+source ~/.sh_functions
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

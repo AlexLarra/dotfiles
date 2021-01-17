@@ -1,8 +1,4 @@
-alias reload="if [[ $0 == "bash"  ]]; then
-                source ~/.bashrc
-              elif [[ $0 == "zsh"  ]]; then
-                source ~/.zshrc
-              fi"
+alias reload="source ~/.zshrc"
 
 alias h='history'
 alias hi='history | tail -20'
@@ -57,7 +53,7 @@ alias rt='bundle exec rake -T --all'
 alias nt="notify-send 'Listo' 'Aprieta!!!'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
-alias vpn_on="sudo bash -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /etc/openvpn/client/.vpn_auth &'"
+alias vpn_on="sudo zsh -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /etc/openvpn/client/.vpn_auth &'"
 #alias vpn_on="systemctl start openvpn-client@client.service"
 alias vpn_off="sudo killall openvpn"
 alias vpn_restart="vpn_off && vpn_on"

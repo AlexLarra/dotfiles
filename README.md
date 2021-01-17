@@ -2,7 +2,7 @@ AlexLarra dotfiles
 ===================
 
 
-Simple configuration for bash aliases and Git. For Linux.
+Simple configuration for zsh aliases and Git. For Linux.
 
 ----------
 
