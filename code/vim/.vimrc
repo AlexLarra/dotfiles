@@ -178,7 +178,9 @@ endtry
 
 " Move through tabs
 nmap <M-l> gt
+nmap <M-j> gt
 nmap <M-h> gT
+nmap <M-k> gT
 
 " Move through panes
 nmap <S-j> <C-w><C-j>
@@ -285,10 +287,10 @@ au VimLeave * :call MakeSession()
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Move a line of text using ALT+[jk]
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+nmap <M-d> mz:m+<cr>`z
+nmap <M-u> mz:m-2<cr>`z
+vmap <M-d> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-u> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Delete trailing white space on save
 autocmd BufWritePre * :%s/\s\+$//e
