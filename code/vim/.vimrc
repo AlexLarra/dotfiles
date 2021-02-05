@@ -196,7 +196,8 @@ nmap <Leader>a :Ack ""<Left>
 " Inmediately search for the word under the cursor in a new tab
 nmap <Leader>A :Ack <C-r><C-w><CR>
 
-nmap <Leader>f :find *
+nmap <Leader>f :Texplore<cr> :find *
+nmap <Leader>F :find *
 
 nmap <Leader>d :%s/<C-r><C-w>//gc<Left><Left><Left>
 
