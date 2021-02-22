@@ -360,6 +360,8 @@ map <Leader>ra :call RunAllSpecs()<CR>
 
 Plug 'jiangmiao/auto-pairs'
 Plug 'tpope/vim-commentary'
+Plug 'mattn/emmet-vim'
+let g:user_emmet_leader_key=','
 
 call plug#end()
 
