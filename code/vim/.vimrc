@@ -177,10 +177,10 @@ catch
 endtry
 
 " Move through tabs
-nmap <M-l> gt
-nmap <M-j> gt
 nmap <M-h> gT
-nmap <M-k> gT
+nmap <M-j> gT
+nmap <M-l> gt
+nmap <M-k> gt
 
 " Move through panes
 nmap <S-j> <C-w><C-j>
