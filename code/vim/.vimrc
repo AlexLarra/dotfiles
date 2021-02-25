@@ -146,7 +146,7 @@ map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
 " Useful mappings for managing tabs
-map <leader>tn :Texplore<cr>
+nnoremap tt :Texplore<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
@@ -287,7 +287,7 @@ au VimLeave * :call MakeSession()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Move a line of text using ALT+[jk]
+" Move a line of text using ALT+[du]
 nmap <M-d> mz:m+<cr>`z
 nmap <M-u> mz:m-2<cr>`z
 vmap <M-d> :m'>+<cr>`<my`>mzgv`yo`z
