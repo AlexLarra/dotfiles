@@ -182,6 +182,10 @@ nmap <M-j> gT
 nmap <M-l> gt
 nmap <M-k> gt
 
+" Add panes
+map <Leader>- :split<cr>
+map <Leader>+ :vs<cr>
+
 " Move through panes
 nmap <S-j> <C-w><C-j>
 nmap <S-k> <C-w><C-k>
@@ -359,7 +363,10 @@ map <Leader>rl :call RunLastSpec()<CR>
 map <Leader>ra :call RunAllSpecs()<CR>
 
 Plug 'jiangmiao/auto-pairs'
+
 Plug 'tpope/vim-commentary'
+" 'gcc' to comment
+
 Plug 'mattn/emmet-vim'
 let g:user_emmet_leader_key=','
 
