@@ -31,6 +31,8 @@ alias get='curl -i -X GET'
 
 alias gst='git status'
 alias gco='git checkout'
+alias gcom='git checkout master'
+alias gcop='git checkout @{-1}'
 alias gd='git diff'
 alias gb='git branch'
 alias gs='git show'
