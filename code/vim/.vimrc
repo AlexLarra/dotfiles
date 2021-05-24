@@ -95,8 +95,6 @@ endtry
 set ffs=unix
 set encoding=utf-8
 set fileencoding=utf-8
-set listchars=eol:¶
-set list
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
