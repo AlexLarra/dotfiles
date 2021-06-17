@@ -77,6 +77,9 @@ set foldcolumn=1
 set relativenumber
 set number
 
+" Be able to use mouse to move pointer and select text
+set mouse=a
+
 " Copy to clipboard, It needs gvim to be installed
 vmap <C-y> "+y"
 
@@ -87,7 +90,7 @@ vmap <C-y> "+y"
 syntax enable
 
 try
-    colorscheme monokai_pro
+    colorscheme sonokai
 catch
     colorscheme desert
 endtry
