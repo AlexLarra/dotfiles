@@ -36,6 +36,7 @@ alias gcop='git checkout @{-1}'
 alias gd='git diff'
 alias gb='git branch'
 alias gs='git show'
+alias gbc="git branch --show-current | tr -d '\n' | xclip -selection clipboard"
 
 alias rs='rails s'
 alias rc='rails c'
