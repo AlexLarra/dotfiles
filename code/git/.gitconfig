@@ -1,3 +1,4 @@
+; Example: https://gist.github.com/pksunkara/988716
 [user]
 	email = alexander.larrazabal@crisalix.com
 	name = AlexLarra
@@ -20,3 +21,6 @@
 	old = red bold
 	new = green bold
 	whitespace = red reverse
+[alias]
+  l = log --oneline
+  lg = log --oneline --graph --decorate
