@@ -50,7 +50,7 @@ alias be='bundle exec'
 alias bi='bundle install'
 alias bu='bundle update'
 
-alias rr='bundle exec rake routes'
+alias rr='bundle exec rails routes'
 alias rt='bundle exec rake -T --all'
 
 alias nt="notify-send 'Listo' 'Aprieta!!!'"
