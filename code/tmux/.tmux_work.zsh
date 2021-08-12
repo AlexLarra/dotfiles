@@ -60,5 +60,8 @@ tmux send-keys -t work 'bin/crisalix-cli capistrano estetix -e staging -t deploy
 tmux new-window -t work -n cmus
 tmux send-keys -t work 'cmus' c-m
 
+tmux new-window -t work -n cointop
+tmux send-keys -t work 'cointop' c-m
+
 tmux select-window -t work:1
 tmux attach -t work
