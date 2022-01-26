@@ -29,3 +29,15 @@ function gpr() {
   firefox $pr_url;
 }
 
+# https://unix.stackexchange.com/a/109190
+# TODO: alias not functions are working in shortcuts
+function change_audio {
+  current_output=`pacmd list-cards | grep "active profile" | cut -d ' ' -f 3-`
+
+  if [ $current_output = "<output:hdmi-stereo>" ];
+  then
+      pacmd set-card-profile 0 output:analog-stereo
+  else
+      pacmd set-card-profile 0 output:hdmi-stereo
+  fi
+}
