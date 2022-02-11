@@ -52,8 +52,9 @@ alias bu='bundle update'
 
 alias rr='bundle exec rails routes'
 alias rt='bundle exec rake -T --all'
+alias tt="bundle exec rspec; notify-send 'Rspec' 'Terminaron los tests.'"
 
-alias nt="notify-send 'Listo' 'Aprieta!!!'"
+alias nt="notify-send 'Notificación manual' 'Seguimos'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
 alias vpn_on="sudo zsh -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /etc/openvpn/client/.vpn_auth &'"
