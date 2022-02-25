@@ -5,7 +5,7 @@ tmux new -s work -d
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux split-window -v -p 25
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
-tmux send-keys -t work 'rails s' C-m
+tmux send-keys -t work 'bin/start' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux select-pane -t 1
