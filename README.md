@@ -34,6 +34,8 @@ Programs
  - npm
    - npm install --global pure-prompt (https://github.com/sindresorhus/pure)
      ([Solution to posible problem](https://stackoverflow.com/a/55172709/2988753))
+ - cmus
+ - cointop
 
 OPENVPN Configuration
 -------------
