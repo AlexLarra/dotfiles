@@ -17,6 +17,7 @@ function install {
   ln -sf "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
   ln -sf "$dotfiles_dir/zsh" ~/.zsh
   mkdir ~/.cache/zsh # For zsh history
+  ln -sf "$dotfiles_dir/cointop/config.toml" ~/.cointop_config.toml
 
   source ~/.zshrc
 
