@@ -57,12 +57,12 @@ tmux new-window -t work
 tmux send-keys -t work 'cd ~/workspace/infrastructure && clear' c-m
 tmux send-keys -t work 'bin/crisalix-cli capistrano estetix -e staging -t deploy:pending'
 
-tmux new-window -t work -n utilities
-tmux send-keys -t work 'cmus' c-m
-tmux split-window -v
+# Create new window splitted in 4
+tmux new-window -t work -n utilities\; \split-window -v \; \split-window -h \; \select-pane -t 1 \; \split-window -h
 tmux select-pane -t 1
-tmux split-window -h 'cointop'
-tmux select-pane -t 3
+tmux send-keys -t work 'cointop' c-m
+tmux select-pane -t 2
+tmux send-keys -t work 'cmus' c-m
 
 tmux select-window -t work:1
 tmux attach -t work
