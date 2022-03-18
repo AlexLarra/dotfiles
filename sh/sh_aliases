@@ -12,6 +12,8 @@ alias cdd='cd -'
 
 alias numfiles='echo $(ls -1 | wc -l)'
 
+alias myip='curl ifconfig.me'
+
 alias psa='ps aux'
 alias psg='ps aux | grep $1'
 
