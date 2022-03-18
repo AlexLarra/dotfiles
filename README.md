@@ -36,6 +36,7 @@ Programs
      ([Solution to posible problem](https://stackoverflow.com/a/55172709/2988753))
  - cmus
  - cointop
+ - neofetch
 
 OPENVPN Configuration
 -------------

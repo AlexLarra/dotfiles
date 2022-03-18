@@ -63,6 +63,8 @@ tmux select-pane -t 1
 tmux send-keys -t work 'cointop' c-m
 tmux select-pane -t 2
 tmux send-keys -t work 'cmus' c-m
+tmux select-pane -t 3
+tmux send-keys -t work 'neofetch --cpu_temp "C" --color_blocks "off"' c-m
 
 tmux select-window -t work:1
 tmux attach -t work
