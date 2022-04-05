@@ -60,14 +60,16 @@ tmux send-keys -t work 'bin/crisalix-cli capistrano estetix -e staging -t deploy
 # Create new window splitted in 4
 tmux new-window -t work -n utilities\; \split-window -v \; \split-window -h \; \select-pane -t 1 \; \split-window -h
 tmux select-pane -t 1
-tmux send-keys -t work 'cointop' c-m
+tmux send-keys -t work 'clear' c-m
+tmux send-keys -t work 'cointop'
 tmux select-pane -t 2
 tmux send-keys -t work 'cmus' c-m
 tmux select-pane -t 3
-tmux send-keys -t work 'neofetch --cpu_temp "C" --color_blocks "off"' c-m
+tmux send-keys -t work 'clear' c-m
+tmux send-keys -t work 'neofetch --cpu_temp "C" --color_blocks "off"'
 tmux select-pane -t 4
 tmux send-keys -t work 'clear' c-m
-tmux send-keys -t work 'myip' c-m
+tmux send-keys -t work 'myip'
 
 tmux select-window -t work:1
 tmux attach -t work
