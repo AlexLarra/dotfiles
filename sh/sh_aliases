@@ -59,11 +59,6 @@ alias tt="DRIVER=selenium_headless BROWSER=firefox bundle exec rspec; notify-sen
 alias nt="notify-send 'Notificación manual' 'Seguimos'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
-alias vpn_on="sudo zsh -c 'openvpn --config /etc/openvpn/fr-bod.prod.surfshark.com_udp.ovpn --auth-user-pass /etc/openvpn/client/.vpn_auth &'"
-#alias vpn_on="systemctl start openvpn-client@client.service"
-alias vpn_off="sudo killall openvpn"
-alias vpn_restart="vpn_off && vpn_on"
-
 alias scrm="ssh -t -o ProxyCommand='ssh -A staging.crisalix.com nc app01 22' app01 'cd /mnt/crisalix_admin/current; bin/rails c -e staging'"
 alias scrm1="ssh -t -o ProxyCommand='ssh -A staging.crisalix.com nc app01 22' app01 'cd /mnt/crisalix_admin1/current; bin/rails c -e staging'"
 alias scrm2="ssh -t -o ProxyCommand='ssh -A staging.crisalix.com nc app01 22' app01 'cd /mnt/crisalix_admin2/current; bin/rails c -e staging'"
