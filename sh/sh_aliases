@@ -52,6 +52,10 @@ alias be='bundle exec'
 alias bi='bundle install'
 alias bu='bundle update'
 
+# https://stackoverflow.com/questions/27261378/how-might-i-pass-text-data-from-the-ruby-console-into-my-clipboard-without-savin/27265427#27265427
+alias pbcopy='xclip -selection clipboard'
+alias pbpaste='xclip -selection clipboard -o'
+
 alias rr='bundle exec rails routes'
 alias rt='bundle exec rake -T --all'
 alias tt="DRIVER=selenium_headless BROWSER=firefox bundle exec rspec; notify-send 'Rspec' 'Terminaron los tests.'"

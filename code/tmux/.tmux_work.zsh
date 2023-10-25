@@ -2,7 +2,6 @@
 
 tmux new -s work -d
 
-tmux send-keys -t work 'firefox -url https://app.slack.com/client/T025ARX9E/D19PXDVCJ https://crisalix.atlassian.net/jira/software/c/projects/MAIN/boards/24 https://mail.google.com/mail/u/0/ https://musicforprogramming.net/one &' c-m
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux split-window -v -p 25
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
