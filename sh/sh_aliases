@@ -41,7 +41,7 @@ alias gs='git show'
 alias gbc="git branch --show-current | tr -d '\n' | xclip -selection clipboard"
 
 alias rs='rails s'
-alias rc='rails c'
+alias rc='rails console -- --noautocomplete'
 alias rg='rails g'
 alias rd='rails d'
 
