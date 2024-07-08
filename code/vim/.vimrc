@@ -28,6 +28,7 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
 set wildignore+=*/coverage/*,*/node_modules/*
+set wildignore+=*/db/migrate/*
 
 "Always show current position
 set ruler
