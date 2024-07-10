@@ -323,6 +323,25 @@ endw
 
 set timeout ttimeoutlen=50
 
+" Define the function to open the last modified file in /db/migrate/
+function! OpenLastMigration()
+  " Get the last modified file in the /db/migrate/ directory
+  let l:latest_migration = system('ls -t db/migrate/*.rb | head -n 1')
+
+  " Remove the newline character at the end of the file path
+  let l:latest_migration = substitute(l:latest_migration, '\n', '', 'g')
+
+  " Open the file if it exists
+  if !empty(l:latest_migration)
+    execute 'tabedit ' . l:latest_migration
+  else
+    echo "No migration files found."
+  endif
+endfunction
+
+" Map the <leader>m key combination to call the function
+nmap <leader>m :call OpenLastMigration()<CR>
+
 " PLUGGED https://github.com/junegunn/vim-plug
 " autoinstallation
 if empty(glob('~/.vim/autoload/plug.vim'))
