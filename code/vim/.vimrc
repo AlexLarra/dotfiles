@@ -248,12 +248,13 @@ function! MyTabLine()
 
     let s .= '%' . tabnr . 'T'
     let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
-    let s .= ' ' . tabnr
-
-    let n = tabpagewinnr(tabnr,'$')
-    if n > 1 | let s .= ':' . n | endif
 
     let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
+
+    " Add the '|' separator between tabs
+    if tabnr < tabpagenr('$')
+      let s .= '%#TabLine#|'
+    endif
 
     let bufmodified = getbufvar(bufnr, "&mod")
     if bufmodified | let s .= '* ' | endif
