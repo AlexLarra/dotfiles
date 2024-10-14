@@ -23,12 +23,14 @@ set so=7
 
 " Turn on the Wild menu
 set wildmenu
+set wildmode=longest:full,full " Accelerate search with command :find
 
 " Ignore compiled files
-set wildignore=*.o,*~,*.pyc
+set wildignore=*.o,*~,*.pyc,*.rbc
 set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
-set wildignore+=*/coverage/*,*/node_modules/*
-set wildignore+=*/db/migrate/*
+set wildignore+=*/log/*,*/tmp/*,*/vendor/*,*/public/assets/*,*/storage/*
+set wildignore+=*/node_modules/*,*/db/migrate/*,*/bin/*,*/spec/fixtures/*,*/test/fixtures/*
+set wildignore+=*/coverage/*,*/.bundle/*,*/sprockets/*
 
 "Always show current position
 set ruler
@@ -137,9 +139,6 @@ set wrap "Wrap lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable highlight when <leader><cr> is pressed
 map <silent> <leader><cr> :noh<cr>
-
-" Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
