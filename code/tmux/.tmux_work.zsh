@@ -8,6 +8,7 @@ tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux send-keys -t work 'bin/start' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
@@ -17,6 +18,7 @@ tmux send-keys -t work 'cd ~/workspace/estetix && clear' C-m
 tmux send-keys -t work 'bin/start' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/estetix && clear' C-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
@@ -26,6 +28,7 @@ tmux send-keys -t work 'cd ~/workspace/crisalix && clear' C-m
 tmux send-keys -t work 'rs -p 3005' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/crisalix && clear' C-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
@@ -35,6 +38,7 @@ tmux send-keys -t work 'cd ~/workspace/SSO && clear' C-m
 tmux send-keys -t work 'rs -p 3007' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/SSO && clear' C-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
@@ -44,6 +48,7 @@ tmux send-keys -t work 'cd ~/workspace/my && clear' C-m
 tmux send-keys -t work 'bin/start' C-m
 tmux split-window -h -t 2
 tmux send-keys -t work 'cd ~/workspace/my && clear' C-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
@@ -51,6 +56,7 @@ tmux send-keys -t work 'cd ~/workspace/core-app && clear' c-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/core-app && clear' c-m
 tmux send-keys -t work 'bin/start' c-m
+tmux resize-pane -D 7
 tmux select-pane -t 1
 
 tmux new-window -t work
