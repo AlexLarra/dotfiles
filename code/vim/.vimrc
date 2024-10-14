@@ -137,8 +137,8 @@ set wrap "Wrap lines
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
+" Disable highlight when Shift + `-`
+map <silent> _ :noh<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
