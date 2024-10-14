@@ -219,14 +219,11 @@ map <leader>q :cg quickfix.out \| cwindow<CR>
 set laststatus=2
 
 set statusline=
-"set statusline+=%{StatuslineGit()}
 set statusline+=%#LineNr#
 set statusline+=%#CursorColumn#
 set statusline+=\ %f
 set statusline+=%m
 set statusline+=%=
-set statusline+=\ %y
-set statusline+=\ [%{&fileencoding?&fileencoding:&encoding}]
 set statusline+=\ %p%%
 set statusline+=\ %l:%c
 set statusline+=%{'\ '}
