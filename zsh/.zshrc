@@ -39,3 +39,6 @@ bindkey '^R' history-incremental-search-backward
 
 # Set cointop config
 export COINTOP_CONFIG="~/.cointop_config.toml"
+
+# move through fzf with Tab and no arrow keys
+export FZF_DEFAULT_OPTS="--bind tab:down,shift-tab:up"

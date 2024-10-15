@@ -339,6 +339,33 @@ endfunction
 " Map the <leader>m key combination to call the function
 nmap <leader>m :call OpenLastMigration()<CR>
 
+function! OpenChangedFiles()
+  " Comprueba la rama actual
+  let l:current_branch = system("git rev-parse --abbrev-ref HEAD")
+  let l:current_branch = substitute(l:current_branch, '\n', '', 'g')
+
+  " Si estás en la rama master, no hacer nada
+  if l:current_branch == "master"
+    echo "Already on master branch."
+    return
+  endif
+
+  " Obtén los archivos cambiados respecto a la rama master
+  let l:changed_files = systemlist("git diff --name-only master")
+
+  " Si no hay archivos cambiados, muestra un mensaje y termina
+  if empty(l:changed_files)
+    echo "No changes compared to master."
+    return
+  endif
+
+  " Usa el comando de selección en Vim para elegir qué archivo abrir
+  call fzf#run(fzf#wrap({'source': l:changed_files, 'sink': 'e'}))
+endfunction
+
+" Show files changed comparing to master
+nmap <leader>g :call OpenChangedFiles()<CR>
+
 " PLUGGED https://github.com/junegunn/vim-plug
 " autoinstallation
 if empty(glob('~/.vim/autoload/plug.vim'))
