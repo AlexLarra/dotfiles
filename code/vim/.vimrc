@@ -373,7 +373,7 @@ function! OpenChangedFiles()
   endif
 
   " Usa el comando de selección en Vim para elegir qué archivo abrir
-  call fzf#run(fzf#wrap({'source': l:changed_files, 'sink': 'e'}))
+  call fzf#run(fzf#wrap({'source': l:changed_files, 'sink': 'tabedit'}))
 endfunction
 
 " Show files changed comparing to master
