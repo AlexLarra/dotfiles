@@ -21,17 +21,6 @@ command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
 " Set 7 lines to the cursor - when moving vertically using j/k
 set so=7
 
-" Turn on the Wild menu
-set wildmenu
-set wildmode=longest:full,full " Accelerate search with command :find
-
-" Ignore compiled files
-set wildignore=*.o,*~,*.pyc,*.rbc
-set wildignore+=*/.git/*,*/.hg/*,*/.svn/*,*/.DS_Store,*/.byebug_history,*/tmp/*
-set wildignore+=*/log/*,*/tmp/*,*/vendor/*,*/public/assets/*,*/storage/*
-set wildignore+=*/node_modules/*,*/db/migrate/*,*/bin/*,*/spec/fixtures/*,*/test/fixtures/*
-set wildignore+=*/coverage/*,*/.bundle/*,*/sprockets/*
-
 "Always show current position
 set ruler
 
@@ -138,7 +127,7 @@ set wrap "Wrap lines
 " => Moving around, tabs, windows and buffers
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable highlight when Shift + `-`
-map <silent> _ :noh<cr>
+map <silent> ^ :noh<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -201,8 +190,32 @@ nmap <Leader>a :Ack ""<Left>
 " Inmediately search for the word under the cursor in a new tab
 nmap <Leader>A :Ack <C-r><C-w><CR>
 
-nmap <Leader>f :Texplore<cr> :find *
-nmap <Leader>F :find *
+let $FZF_DEFAULT_COMMAND = 'fd --type f --hidden --follow ' .
+            \ '--exclude "*.o" ' .
+            \ '--exclude "*~" ' .
+            \ '--exclude "*.pyc" ' .
+            \ '--exclude "*.rbc" ' .
+            \ '--exclude ".git" ' .
+            \ '--exclude ".hg" ' .
+            \ '--exclude ".svn" ' .
+            \ '--exclude ".DS_Store" ' .
+            \ '--exclude ".byebug_history" ' .
+            \ '--exclude "tmp" ' .
+            \ '--exclude "log" ' .
+            \ '--exclude "vendor" ' .
+            \ '--exclude "public/assets" ' .
+            \ '--exclude "storage" ' .
+            \ '--exclude "node_modules" ' .
+            \ '--exclude "db/migrate" ' .
+            \ '--exclude "bin" ' .
+            \ '--exclude "spec/fixtures" ' .
+            \ '--exclude "test/fixtures" ' .
+            \ '--exclude "coverage" ' .
+            \ '--exclude ".bundle" ' .
+            \ '--exclude "sprockets"'
+
+nmap <Leader>f :call fzf#run(fzf#wrap({'source': $FZF_DEFAULT_COMMAND, 'sink': 'tabedit'}))<CR>
+nmap <Leader>F :call fzf#run(fzf#wrap({'source': $FZF_DEFAULT_COMMAND, 'sink': 'e'}))<CR>
 
 nmap <Leader>d :%s/<C-r><C-w>//gc<Left><Left><Left>
 

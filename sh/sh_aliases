@@ -42,8 +42,6 @@ alias gbc="git branch --show-current | tr -d '\n' | xclip -selection clipboard"
 
 alias rs='rails s'
 alias rc='rails console -- --noautocomplete'
-alias rg='rails g'
-alias rd='rails d'
 
 alias gemi='gem install --no-ri --no-rdoc'
 alias gemu='gem uninstall'
