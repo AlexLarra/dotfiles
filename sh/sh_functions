@@ -41,3 +41,8 @@ function change_audio {
       pacmd set-card-profile 0 output:hdmi-stereo
   fi
 }
+
+# After an update microphone was not working
+function fix_microphone() {
+  pactl load-module module-alsa-source device=hw:0,0
+}
