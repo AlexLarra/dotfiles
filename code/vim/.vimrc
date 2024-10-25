@@ -255,16 +255,17 @@ function! MyTabLine()
     let bufnr = buflist[winnr - 1]
     let bufname = fnamemodify(bufname(bufnr), ':t')
 
+    " Add separator '|' at beginning, except in first tab
+    if tabnr > 1
+      let s .= '%#TabLine#|'
+    endif
+
     let s .= '%' . tabnr . 'T'
     let s .= (tabnr == tabpagenr() ? '%#TabLineSel#' : '%#TabLine#')
 
     let s .= empty(bufname) ? ' [No Name] ' : ' ' . bufname . ' '
 
-    " Add the '|' separator between tabs
-    if tabnr < tabpagenr('$')
-      let s .= '%#TabLine#|'
-    endif
-
+    " Mark if buffer is modified
     let bufmodified = getbufvar(bufnr, "&mod")
     if bufmodified | let s .= '* ' | endif
   endfor
