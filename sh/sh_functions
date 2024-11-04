@@ -15,18 +15,21 @@ function rails_version {
 }
 
 function gpr() {
-  github_url=`git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/'`;
-  branch_name=`git symbolic-ref HEAD | cut -d"/" -f 3,4`;
+  github_url=$(git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/');
+  branch_name=$(git symbolic-ref --short HEAD)
+  repo=$(echo "$github_url" | sed -E 's#https://github.com/##')
 
-  if [ $branch_name = 'master' ];
-  then
-      pr_url=$github_url
+  owner=$(echo "$repo" | cut -d'/' -f 1)
+
+  head_filter="$owner:$branch_name"
+
+  pr_url=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$repo/pulls?head=$head_filter" | grep '"html_url":' | head -n 1 | awk -F '"' '{print $4}')
+
+  if [ -n "$pr_url" ]; then
+    firefox "$pr_url/files"
   else
-      pr_url=$github_url"/compare/master..."$branch_name
+    firefox "$github_url"
   fi
-
-
-  firefox $pr_url;
 }
 
 # https://unix.stackexchange.com/a/109190
