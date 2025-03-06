@@ -99,7 +99,7 @@ enable_mouse = true
   character = "*"
   columns = ["rank", "name", "symbol", "price", "24h_change", "7d_change"]
   compact_notation = false
-  names = ["Bitcoin", "NEXO", "THORChain", "Theta Fuel", "Theta Network"]
+  names = ["Bitcoin", "Kaspa", "NEXO", "THORChain", "Theta Fuel", "Theta Network"]
 
 [portfolio]
   columns = ["rank", "name", "symbol", "price", "holdings", "balance", "24h_change", "7d_change", "percent_holdings"]

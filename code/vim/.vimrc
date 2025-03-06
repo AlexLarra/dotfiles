@@ -139,7 +139,7 @@ map <leader>h :bprevious<cr>
 nnoremap tt :Texplore<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove
+map <leader>tm :tabmove<cr>
 
 imap jj <Esc>
 nmap <c-s> :w<CR>
