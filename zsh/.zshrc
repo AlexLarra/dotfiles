@@ -1,6 +1,6 @@
 source ~/.sh_aliases
 source ~/.sh_functions
-source ~/.github_tokens.env # For gpr(); https://github.com/settings/tokens
+source ~/.dotfiles.env # For gpr() and ia_commit(); https://github.com/settings/tokens
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"

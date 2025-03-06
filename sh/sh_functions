@@ -49,3 +49,58 @@ function change_audio {
 function fix_microphone() {
   pactl load-module module-alsa-source device=hw:0,0
 }
+
+function iacommit() {
+  if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
+    echo "No estás dentro de un repositorio Git."
+    return 1
+  fi
+
+  local changes=$(git --no-pager diff)
+
+  if [[ -z "$changes" ]]; then
+    echo "No hay cambios preparados para commit."
+    return 1
+  fi
+
+  local prompt="Generate a concise and descriptive commit message for the following changes:\n\n$changes"
+
+  local json_payload=$(jq -n \
+    --arg model "gpt-4o-mini" \
+    --arg prompt "$prompt" \
+    '{
+      model: $model,
+      messages: [{role: "user", content: $prompt}],
+      max_tokens: 60
+    }')
+
+  local response=$(curl -s -X POST "https://api.openai.com/v1/chat/completions" \
+    -H "Content-Type: application/json" \
+    -H "Authorization: Bearer ${OPENAI_API_KEY}" \
+    -d "$json_payload")
+
+  if [[ $(echo $response | jq -r '.error') != "null" ]]; then
+    echo "Error en la API de OpenAI:"
+    echo $response | jq -r '.error.message'
+    return 1
+  fi
+
+  local commit_message=$(echo $response | jq -r '.choices[0].message.content')
+
+  if [[ -z "$commit_message" || "$commit_message" == "null" ]]; then
+    echo "No se pudo generar el mensaje de commit."
+    return 1
+  fi
+
+  # Mostrar el mensaje de commit y confirmar
+  echo "Mensaje de commit generado:"
+  echo "$commit_message"
+  echo "¿Confirmar el commit? (s/n)"
+  read confirm
+
+  if [[ "$confirm" == "s" || "$confirm" == "S" ]]; then
+    git commit -am "$commit_message"
+  else
+    echo "Commit cancelado."
+  fi
+}
