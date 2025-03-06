@@ -56,7 +56,7 @@ function iacommit() {
     return 1
   fi
 
-  local changes=$(git --no-pager diff)
+  local changes=$(git diff --staged --no-color && git diff --no-color)
 
   if [[ -z "$changes" ]]; then
     echo "No hay cambios preparados para commit."
