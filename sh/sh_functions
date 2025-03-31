@@ -64,7 +64,7 @@ function iacommit() {
     return 1
   fi
 
-  local prompt="Generate a concise and descriptive commit message for the following changes:\n\n$changes"
+  local prompt="Generate a concise and descriptive commit message not using control characters from U+0000 through U+001F for the following changes:\n\n$changes"
   local commit_message=$(ask_openai "gpt-4o-mini" "$prompt" 60)
 
   if [[ -z "$commit_message" || "$commit_message" == "null" ]]; then

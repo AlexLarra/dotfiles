@@ -75,7 +75,7 @@ tmux send-keys -t work 'clear' c-m
 tmux send-keys -t work 'neofetch --cpu_temp "C" --color_blocks "off"'
 tmux select-pane -t 4
 tmux send-keys -t work 'clear' c-m
-tmux send-keys -t work 'myip'
+tmux send-keys -t work 'task list' c-m
 
 tmux select-window -t work:1
 tmux attach -t work
