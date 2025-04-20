@@ -64,7 +64,7 @@ function iacommit() {
     return 1
   fi
 
-  local prompt="Generate a concise and descriptive commit message not using control characters from U+0000 through U+001F for the following changes:\n\n$changes"
+  local prompt="Generate a concise and descriptive commit message the following changes:\n\n$changes"
   local commit_message=$(ask_openai "gpt-4o-mini" "$prompt" 60)
 
   if [[ -z "$commit_message" || "$commit_message" == "null" ]]; then
@@ -79,7 +79,17 @@ function iacommit() {
   read confirm
 
   if [[ "$confirm" == "s" || "$confirm" == "S" ]]; then
-    git commit -am "$commit_message"
+    # Sanitize commit message: remove code fences and unwanted control characters (except newline)
+    local clean_message
+    clean_message=$(printf "%s\n" "$commit_message" \
+      | sed '/^```/d' \
+      | tr -d '\000-\011\013-\037')
+    # Use a temporary file to handle multi-line messages safely
+    local tmpfile
+    tmpfile=$(mktemp)
+    printf "%s\n" "$clean_message" > "$tmpfile"
+    git commit -a -F "$tmpfile"
+    rm -f "$tmpfile"
   else
     echo "Commit cancelado."
   fi
@@ -95,13 +105,11 @@ function ask_openai() {
     return 1
   fi
 
-  local json_payload=$(jq -n \
-    --arg model "$model" \
-    --arg prompt "$prompt" \
-    --argjson max_tokens "$max_tokens" \
+  local json_payload
+  json_payload=$(printf '%s' "$prompt" | jq -Rs --arg model "$model" --argjson max_tokens "$max_tokens" \
     '{
       model: $model,
-      messages: [{role: "user", content: $prompt}],
+      messages: [{role: "user", content: .}],
       max_tokens: $max_tokens
     }')
 
@@ -110,11 +118,11 @@ function ask_openai() {
     -H "Authorization: Bearer ${OPENAI_API_KEY}" \
     -d "$json_payload")
 
-  if [[ $(echo $response | jq -r '.error') != "null" ]]; then
+  if [[ $(printf '%s' "$response" | jq -r '.error') != "null" ]]; then
     echo "Error en la API de OpenAI:"
-    echo $response | jq -r '.error.message'
+    printf '%s' "$response" | jq -r '.error.message'
     return 1
   fi
 
-  echo "$response" | jq -r '.choices[0].message.content'
+  printf '%s' "$response" | jq -r '.choices[0].message.content'
 }
