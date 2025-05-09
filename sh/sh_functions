@@ -46,9 +46,26 @@ function change_audio {
 }
 
 # After an update microphone was not working
-function fix_microphone() {
-  pactl load-module module-alsa-source device=hw:0,0
+fix_audio() {
+  echo "🔧 Reiniciando PulseAudio..."
+  pulseaudio -k
+  sleep 1
+  pulseaudio --start
+
+  echo "🔄 Recargando ALSA (si está disponible)..."
+  if command -v sudo >/dev/null && [ -w /etc/modprobe.d ]; then
+  sudo alsa force-reload
+  fi
+
+  echo "🎚 Ajustando perfil de tarjeta y volumen de micrófono..."
+  pactl set-card-profile 0 output:analog-stereo+input:analog-stereo 2>/dev/null
+  pactl set-source-volume @DEFAULT_SOURCE@ 100% 2>/dev/null
+
+  echo "✅ ¡Micrófono y audio restaurados!"
 }
+# function fix_microphone() {
+#   pactl load-module module-alsa-source device=hw:0,0
+# }
 
 function iacommit() {
   if ! git rev-parse --is-inside-work-tree > /dev/null 2>&1; then
