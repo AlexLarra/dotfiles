@@ -278,30 +278,30 @@ set tabline=%!MyTabLine()
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Save last session
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! MakeSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
-endfunction
+" function! MakeSession()
+"   let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+"   if (filewritable(b:sessiondir) != 2)
+"     exe 'silent !mkdir -p ' b:sessiondir
+"     redraw!
+"   endif
+"   let b:filename = b:sessiondir . '/session.vim'
+"   exe "mksession! " . b:filename
+" endfunction
 
-function! LoadSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
-  else
-    echo "No session loaded."
-  endif
-endfunction
+" function! LoadSession()
+"   let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
+"   let b:sessionfile = b:sessiondir . "/session.vim"
+"   if (filereadable(b:sessionfile))
+"     exe 'source ' b:sessionfile
+"   else
+"     echo "No session loaded."
+"   endif
+" endfunction
 
-if !exists("g:avoidSession")
-  au VimEnter * nested :call LoadSession()
-  au VimLeave * :call MakeSession()
-end
+" if !exists("g:avoidSession")
+"   au VimEnter * nested :call LoadSession()
+"   au VimLeave * :call MakeSession()
+" end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -380,6 +380,16 @@ endfunction
 " Show files changed comparing to master
 nmap <leader>g :call OpenChangedFiles()<CR>
 
+" Open a new window with tmux calling codex with current line
+function! TmuxCodex()
+  let file   = expand('%:p')
+  let ln     = line('.')
+  let prompt = printf("En el archivo %s en la línea %d", file, ln)
+  " Lanza tmux y abre el pane a la derecha
+  execute 'silent !tmux split-window -h codex ' . shellescape(prompt)
+endfunction
+nnoremap <silent> <leader>c :call TmuxCodex()<CR>
+
 " PLUGGED https://github.com/junegunn/vim-plug
 " autoinstallation
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -389,9 +399,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-"Plug 'junegunn/seoul256.vim'
-"Plug 'junegunn/goyo.vim'
-"Plug 'junegunn/limelight.vim'
 Plug 'mileszs/ack.vim'
 
 Plug 'airblade/vim-gitgutter'
