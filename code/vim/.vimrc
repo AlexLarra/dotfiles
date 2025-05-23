@@ -380,6 +380,28 @@ endfunction
 " Show files changed comparing to master
 nmap <leader>g :call OpenChangedFiles()<CR>
 
+" Open a new window with tmux calling codex with current line
+function! TmuxCodex()
+  " Compute relative file path to git root (or use full path)
+  let full_path = expand('%:p')
+  let root_dir = substitute(system('git rev-parse --show-toplevel 2>/dev/null'), '\n\+$', '', '')
+  if !empty(root_dir)
+    let rel_path = substitute(full_path, '^'.escape(root_dir, '\').'/', '', '')
+  else
+    let rel_path = full_path
+  endif
+  " Abre un nuevo pane en tmux, teclean el comando con prompt entre comillas
+  " añade espacio final y coloca el cursor antes de la comilla para completar
+  " Build a tmux command that opens a split, types the codex invocation with a trailing space inside the quotes,
+  " then moves the cursor before the closing quote for user input
+  " Current line and construct codex command (path:line)
+  let ln = line('.')
+  let cmd = "codex --full-auto 'En el contexto de la línea " . ln . " del archivo " . rel_path . " '"
+  let shell_cmd = "tmux split-window -h \\; send-keys " . shellescape(cmd) . " \\; send-keys Left"
+  silent execute '!' . shell_cmd
+endfunction
+nnoremap <silent> <leader>c :call TmuxCodex()<CR>
+
 " PLUGGED https://github.com/junegunn/vim-plug
 " autoinstallation
 if empty(glob('~/.vim/autoload/plug.vim'))
@@ -389,9 +411,6 @@ if empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 call plug#begin('~/.vim/plugged')
-"Plug 'junegunn/seoul256.vim'
-"Plug 'junegunn/goyo.vim'
-"Plug 'junegunn/limelight.vim'
 Plug 'mileszs/ack.vim'
 
 Plug 'airblade/vim-gitgutter'

@@ -61,7 +61,7 @@ tmux select-pane -t 1
 
 tmux new-window -t work
 tmux send-keys -t work 'cd ~/workspace/infrastructure && clear' c-m
-tmux send-keys -t work 'bin/crisalix-cli capistrano estetix -e staging -t deploy:pending'
+tmux send-keys -t work 'bin/crisalix-cli capistrano crisalix_admin -e staging -t deploy:pending'
 
 # Create new window splitted in 4
 tmux new-window -t work -n utilities\; \split-window -v \; \split-window -h \; \select-pane -t 1 \; \split-window -h
