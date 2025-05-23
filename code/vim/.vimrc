@@ -385,8 +385,13 @@ function! TmuxCodex()
   let file   = expand('%:p')
   let ln     = line('.')
   let prompt = printf("En el archivo %s en la línea %d", file, ln)
-  " Lanza tmux y abre el pane a la derecha
-  execute 'silent !tmux split-window -h codex ' . shellescape(prompt)
+  " Abre un nuevo pane en tmux, teclean el comando con prompt entre comillas
+  " añade espacio final y coloca el cursor antes de la comilla para completar
+  " Build a tmux command that opens a split, types the codex invocation with a trailing space inside the quotes,
+  " then moves the cursor before the closing quote for user input
+  let cmd = "codex '" . prompt . " '"
+  let shell_cmd = "tmux split-window -h \\; send-keys " . shellescape(cmd) . " \\; send-keys Left"
+  silent execute '!' . shell_cmd
 endfunction
 nnoremap <silent> <leader>c :call TmuxCodex()<CR>
 
