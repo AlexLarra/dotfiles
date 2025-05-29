@@ -143,3 +143,48 @@ function ask_openai() {
 
   printf '%s' "$response" | jq -r '.choices[0].message.content'
 }
+
+function fix_wifi() {
+  local iface="wlo1"
+  local my_ip=$(ip -4 addr show $iface | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+  local current_gw=$(ip route | grep default | awk '{print $3}')
+
+  if [[ -z "$my_ip" || -z "$current_gw" ]]; then
+    echo "❌ No se detectó IP o gateway en $iface. ¿Estás conectado?"
+    return 1
+  fi
+
+  local my_net_prefix="${my_ip%.*}"
+  local gw_prefix="${current_gw%.*}"
+  local reconnect=false
+
+  echo "📡 IP: $my_ip"
+  echo "🌐 Gateway detectado: $current_gw"
+
+  if [[ "$my_net_prefix" != "$gw_prefix" ]]; then
+    echo "⚠️ Gateway y red no coinciden. Corrigiendo ruta..."
+    sudo ip route del default
+    sudo ip route add default via "$my_net_prefix.1" dev "$iface"
+    reconnect=true
+    echo "✅ Ruta actualizada a $my_net_prefix.1"
+  else
+    echo "✅ Gateway está en el rango correcto. Probando conectividad..."
+    if ping -c 1 -W 1 "$current_gw" > /dev/null; then
+      echo "✅ Todo en orden. No se requiere acción."
+    else
+      echo "⚠️ Gateway $current_gw no responde. Forzando actualización..."
+      sudo ip route del default
+      sudo ip route add default via "$current_gw" dev "$iface"
+      reconnect=true
+      echo "✅ Ruta actualizada con el gateway detectado ($current_gw)"
+    fi
+  fi
+
+  if [[ "$reconnect" == true ]]; then
+    echo "🔁 Reiniciando conexión WiFi $iface..."
+    nmcli dev disconnect "$iface"
+    sleep 2
+    nmcli dev connect "$iface"
+    echo "✅ Conexión reiniciada."
+  fi
+}
