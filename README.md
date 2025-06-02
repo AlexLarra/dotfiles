@@ -37,4 +37,4 @@ Programs
  - cmus
  - cointop
  - neofetch
-
+ - [codex](https://help.openai.com/en/articles/11096431-openai-codex-cli-getting-started)
