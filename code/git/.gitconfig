@@ -25,3 +25,5 @@
 [alias]
   l = log --oneline
   lg = log --oneline --graph --decorate
+[init]
+	defaultBranch = master
