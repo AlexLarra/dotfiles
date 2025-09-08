@@ -61,5 +61,5 @@ alias tt="DRIVER=selenium_headless BROWSER=firefox bundle exec rspec; notify-sen
 alias nt="notify-send 'Notificación manual' 'Seguimos'"
 alias fix_update='sudo rm /var/lib/pacman/db.lck'
 
-alias codexd="codex --dangerously-bypass-approvals-and-sandbox"
-alias codexf="codex --full-auto"
+alias codexd="codex -c preferred_auth_method=apikey --dangerously-bypass-approvals-and-sandbox"
+alias codexf="codex -c preferred_auth_method=apikey --full-auto"
