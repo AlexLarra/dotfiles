@@ -396,7 +396,7 @@ function! TmuxCodex()
   " then moves the cursor before the closing quote for user input
   " Current line and construct codex command (path:line)
   let ln = line('.')
-  let cmd = "codex --full-auto 'En el contexto de la línea " . ln . " del archivo " . rel_path . " '"
+  let cmd = "codex -c preferred_auth_method=apikey --full-auto 'En el contexto de la línea " . ln . " del archivo " . rel_path . " '"
   let shell_cmd = "tmux split-window -h \\; send-keys " . shellescape(cmd) . " \\; send-keys Left"
   silent execute '!' . shell_cmd
 endfunction
