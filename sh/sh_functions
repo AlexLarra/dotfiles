@@ -218,8 +218,17 @@ chrome_devtools() {
     port=39931
   fi
 
-  if curl -sf "http://localhost:${port}/json/version" >/dev/null 2>&1; then
+  if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
+    local ws_url ws_path
+    ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+    if [[ -n "$ws_url" ]]; then
+      ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
+      if [[ -n "$ws_path" ]]; then
+        printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+      fi
+    fi
     echo "DevTools ya responde en localhost:${port}"
+    [[ -n "$ws_url" ]] && echo "WS: $ws_url"
     return 0
   fi
 
@@ -239,8 +248,14 @@ chrome_devtools() {
 
   for i in {1..30}; do
     if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
-      local ws_url
+      local ws_url ws_path
       ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+      if [[ -n "$ws_url" ]]; then
+        ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
+        if [[ -n "$ws_path" ]]; then
+          printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+        fi
+      fi
       echo "✅ DevTools listo en localhost:${port}"
       [[ -n "$ws_url" ]] && echo "WS: $ws_url"
       return 0
