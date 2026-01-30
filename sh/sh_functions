@@ -188,3 +188,61 @@ function fix_wifi() {
     echo "✅ Conexión reiniciada."
   fi
 }
+
+chrome_devtools() {
+  local port="$1"
+  local url="${2:-http://manager.crisalix.local:3000}"
+  local user_dir="${3:-$HOME/config/google-chrome}"
+  local log_file="/tmp/chrome-remote.log"
+  local port_file="${user_dir}/DevToolsActivePort"
+
+  if ! command -v google-chrome-stable >/dev/null 2>&1; then
+    echo "google-chrome-stable no está instalado."
+    return 1
+  fi
+
+  mkdir -p "$user_dir"
+  : > "$log_file"
+
+  if [[ -z "$port" && -f "$port_file" ]]; then
+    port=$(head -n1 "$port_file" 2>/dev/null | tr -d '\r\n')
+  fi
+
+  if [[ -z "$port" ]]; then
+    port=39931
+  fi
+
+  if curl -sf "http://localhost:${port}/json/version" >/dev/null 2>&1; then
+    echo "DevTools ya responde en localhost:${port}"
+    return 0
+  fi
+
+  echo "Arrancando Chrome con perfil ${user_dir} y puerto ${port}..."
+  nohup google-chrome-stable \
+    --remote-debugging-port="${port}" \
+    --user-data-dir="${user_dir}" \
+    --no-first-run \
+    --no-default-browser-check \
+    --disable-dev-shm-usage \
+    --disable-gpu \
+    --use-gl=swiftshader \
+    --window-size=1280,720 \
+    "${url}" >> "${log_file}" 2>&1 &
+  local chrome_pid=$!
+  disown
+
+  for i in {1..30}; do
+    if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
+      local ws_url
+      ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+      echo "✅ DevTools listo en localhost:${port}"
+      [[ -n "$ws_url" ]] && echo "WS: $ws_url"
+      return 0
+    fi
+    sleep 0.5
+  done
+
+  echo "❌ Chrome lanzado (PID $chrome_pid) pero DevTools no respondió. Revisa ${log_file}"
+  return 1
+}
+
