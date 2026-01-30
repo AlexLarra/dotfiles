@@ -190,6 +190,7 @@ function fix_wifi() {
 }
 
 chrome_devtools() {
+  # Start Chrome with remote DevTools and store port/WS for reuse.
   local port="$1"
   local url="${2:-http://manager.crisalix.local:3000}"
   local user_dir="${3:-$HOME/config/google-chrome}"
@@ -197,11 +198,13 @@ chrome_devtools() {
   local port_file="${user_dir}/DevToolsActivePort"
   local port_link="$HOME/.config/google-chrome/DevToolsActivePort"
 
+  # Early validation: require chrome binary available.
   if ! command -v google-chrome-stable >/dev/null 2>&1; then
-    echo "google-chrome-stable no está instalado."
+    echo "google-chrome-stable is not installed."
     return 1
   fi
 
+  # Prepare profile/symlink and clear the log before using it.
   mkdir -p "$user_dir"
   mkdir -p "$(dirname "$port_link")"
   if [[ -e "$port_link" ]]; then
@@ -210,14 +213,17 @@ chrome_devtools() {
   ln -sfn "$port_file" "$port_link"
   : > "$log_file"
 
+  # If an active DevTools exists, try to reuse its port.
   if [[ -z "$port" && -f "$port_file" ]]; then
     port=$(head -n1 "$port_file" 2>/dev/null | tr -d '\r\n')
   fi
 
+  # Default port when none provided or retrievable.
   if [[ -z "$port" ]]; then
     port=39931
   fi
 
+  # Quick check: DevTools already listening? Reuse and refresh WS info.
   if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
     local ws_url ws_path
     ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
@@ -227,12 +233,13 @@ chrome_devtools() {
         printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
       fi
     fi
-    echo "DevTools ya responde en localhost:${port}"
+    echo "DevTools already responding on localhost:${port}"
     [[ -n "$ws_url" ]] && echo "WS: $ws_url"
     return 0
   fi
 
-  echo "Arrancando Chrome con perfil ${user_dir} y puerto ${port}..."
+  # Launch Chrome with the given profile and configured remote port.
+  echo "Starting Chrome with profile ${user_dir} and port ${port}..."
   nohup google-chrome-stable \
     --remote-debugging-port="${port}" \
     --user-data-dir="${user_dir}" \
@@ -246,6 +253,7 @@ chrome_devtools() {
   local chrome_pid=$!
   disown
 
+  # Poll up to 15s for DevTools, storing WS info when it appears.
   for i in {1..30}; do
     if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
       local ws_url ws_path
@@ -256,14 +264,15 @@ chrome_devtools() {
           printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
         fi
       fi
-      echo "✅ DevTools listo en localhost:${port}"
+      echo "✅ DevTools ready on localhost:${port}"
       [[ -n "$ws_url" ]] && echo "WS: $ws_url"
       return 0
     fi
     sleep 0.5
   done
 
-  echo "❌ Chrome lanzado (PID $chrome_pid) pero DevTools no respondió. Revisa ${log_file}"
+  # If it never responded, report and leave traces in the log for debugging.
+  echo "❌ Chrome started (PID $chrome_pid) but DevTools did not respond. Check ${log_file}"
   return 1
 }
 
