@@ -4,7 +4,8 @@ set history=500
 set path+=**
 
 " Set to auto read when a file is changed from the outside
-set autoread | au CursorHold * checktime | call feedkeys("jk")
+set autoread
+au CursorHold,CursorHoldI * checktime
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
