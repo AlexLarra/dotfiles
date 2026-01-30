@@ -195,6 +195,7 @@ chrome_devtools() {
   local user_dir="${3:-$HOME/config/google-chrome}"
   local log_file="/tmp/chrome-remote.log"
   local port_file="${user_dir}/DevToolsActivePort"
+  local port_link="$HOME/.config/google-chrome/DevToolsActivePort"
 
   if ! command -v google-chrome-stable >/dev/null 2>&1; then
     echo "google-chrome-stable no está instalado."
@@ -202,6 +203,11 @@ chrome_devtools() {
   fi
 
   mkdir -p "$user_dir"
+  mkdir -p "$(dirname "$port_link")"
+  if [[ -e "$port_link" ]]; then
+    rm -f "$port_link"
+  fi
+  ln -sfn "$port_file" "$port_link"
   : > "$log_file"
 
   if [[ -z "$port" && -f "$port_file" ]]; then
