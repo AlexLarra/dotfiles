@@ -188,3 +188,91 @@ function fix_wifi() {
     echo "✅ Conexión reiniciada."
   fi
 }
+
+qa_browser() {
+  # Start Chrome with remote DevTools and store port/WS for reuse.
+  local port="$1"
+  local url="${2:-http://manager.crisalix.local:3000}"
+  local user_dir="${3:-$HOME/config/google-chrome}"
+  local log_file="/tmp/chrome-remote.log"
+  local port_file="${user_dir}/DevToolsActivePort"
+  local port_link="$HOME/.config/google-chrome/DevToolsActivePort"
+
+  # Early validation: require chrome binary available.
+  if ! command -v google-chrome-stable >/dev/null 2>&1; then
+    echo "google-chrome-stable is not installed."
+    return 1
+  fi
+
+  # Prepare profile/symlink and clear the log before using it.
+  mkdir -p "$user_dir"
+  mkdir -p "$(dirname "$port_link")"
+  if [[ -e "$port_link" ]]; then
+    rm -f "$port_link"
+  fi
+  ln -sfn "$port_file" "$port_link"
+  : > "$log_file"
+
+  # If an active DevTools exists, try to reuse its port.
+  if [[ -z "$port" && -f "$port_file" ]]; then
+    port=$(head -n1 "$port_file" 2>/dev/null | tr -d '\r\n')
+  fi
+
+  # Default port when none provided or retrievable.
+  if [[ -z "$port" ]]; then
+    port=39931
+  fi
+
+  # Quick check: DevTools already listening? Reuse and refresh WS info.
+  if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
+    local ws_url ws_path
+    ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+    if [[ -n "$ws_url" ]]; then
+      ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
+      if [[ -n "$ws_path" ]]; then
+        printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+      fi
+    fi
+    echo "DevTools already responding on localhost:${port}"
+    [[ -n "$ws_url" ]] && echo "WS: $ws_url"
+    return 0
+  fi
+
+  # Launch Chrome with the given profile and configured remote port.
+  echo "Starting Chrome with profile ${user_dir} and port ${port}..."
+  nohup google-chrome-stable \
+    --remote-debugging-port="${port}" \
+    --user-data-dir="${user_dir}" \
+    --no-first-run \
+    --no-default-browser-check \
+    --disable-dev-shm-usage \
+    --disable-gpu \
+    --use-gl=swiftshader \
+    --window-size=1280,720 \
+    "${url}" >> "${log_file}" 2>&1 &
+  local chrome_pid=$!
+  disown
+
+  # Poll up to 15s for DevTools, storing WS info when it appears.
+  for i in {1..30}; do
+    if resp=$(curl -sf "http://localhost:${port}/json/version" 2>/dev/null); then
+      local ws_url ws_path
+      ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
+      if [[ -n "$ws_url" ]]; then
+        ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
+        if [[ -n "$ws_path" ]]; then
+          printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+        fi
+      fi
+      echo "✅ DevTools ready on localhost:${port}"
+      [[ -n "$ws_url" ]] && echo "WS: $ws_url"
+      return 0
+    fi
+    sleep 0.5
+  done
+
+  # If it never responded, report and leave traces in the log for debugging.
+  echo "❌ Chrome started (PID $chrome_pid) but DevTools did not respond. Check ${log_file}"
+  return 1
+}
+
