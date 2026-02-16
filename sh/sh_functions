@@ -189,7 +189,7 @@ function fix_wifi() {
   fi
 }
 
-chrome_devtools() {
+qa_browser() {
   # Start Chrome with remote DevTools and store port/WS for reuse.
   local port="$1"
   local url="${2:-http://manager.crisalix.local:3000}"
