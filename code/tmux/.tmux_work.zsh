@@ -63,11 +63,6 @@ tmux new-window -t work
 tmux send-keys -t work 'cd ~/workspace/infrastructure && clear' c-m
 tmux send-keys -t work 'bin/crisalix-cli capistrano crisalix_admin -e staging -t deploy:pending'
 
-# For Opencode to access to Jira: https://www.workato.com/the-connector/jira-mcp/
-tmux new-window -t work
-tmux send-keys -t work 'cd ~/workspace/jira-mcp-server && clear' c-m
-tmux send-keys -t work 'node index.js'
-
 # Create new window splitted in 4
 tmux new-window -t work -n utilities\; \split-window -v \; \split-window -h \; \select-pane -t 1 \; \split-window -h
 tmux select-pane -t 1
