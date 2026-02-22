@@ -32,6 +32,17 @@ function gpr() {
   fi
 }
 
+function jira() {
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "No estás dentro de un repositorio Git."
+    return 1
+  fi
+
+  branch_name=$(git symbolic-ref --short HEAD)
+  branch_encoded=$(printf '%s' "$branch_name" | sed 's#/#%2F#g')
+  firefox "https://crisalix.atlassian.net/browse/${branch_encoded}"
+}
+
 # https://unix.stackexchange.com/a/109190
 # TODO: alias not functions are working in shortcuts
 function change_audio {
