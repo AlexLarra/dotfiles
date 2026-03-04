@@ -39,8 +39,14 @@ function jira() {
   fi
 
   branch_name=$(git symbolic-ref --short HEAD)
-  branch_encoded=$(printf '%s' "$branch_name" | sed 's#/#%2F#g')
-  firefox "https://crisalix.atlassian.net/browse/${branch_encoded}"
+  issue_key=$(printf '%s' "$branch_name" | grep -oE '[A-Za-z][A-Za-z0-9]+-[0-9]+' | head -n1)
+
+  if [ -z "$issue_key" ]; then
+    issue_key="$branch_name"
+  fi
+
+  issue_encoded=$(printf '%s' "$issue_key" | sed 's#/#%2F#g')
+  firefox "https://crisalix.atlassian.net/browse/${issue_encoded}"
 }
 
 # https://unix.stackexchange.com/a/109190
