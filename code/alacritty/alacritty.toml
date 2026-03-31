@@ -1,0 +1,23 @@
+# Configuration for Alacritty, the GPU enhanced terminal emulator.
+
+[window]
+startup_mode = "Maximized"
+opacity = 1.0
+
+[font]
+size = 12.0
+
+[colors.cursor]
+text = "#000000"
+cursor = "#50f0d0"
+
+[cursor]
+blink_interval = 500
+
+[cursor.style]
+shape = "Block"
+blinking = "Always"
+
+[shell]
+program = "/bin/zsh"
+args = ["--login"]
