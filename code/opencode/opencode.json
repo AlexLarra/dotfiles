@@ -17,6 +17,6 @@
     }
   },
   "plugin": [
-    "oh-my-opencode@latest"
+    "opencode-anthropic-login-via-cli@latest"
   ]
 }
