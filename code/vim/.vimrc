@@ -381,8 +381,8 @@ endfunction
 " Show files changed comparing to master
 nmap <leader>g :call OpenChangedFiles()<CR>
 
-" Open a new window with tmux calling codex with current line
-function! TmuxCodex()
+" Open a new tmux pane with opencode for the current file and line
+function! TmuxOpencode()
   " Compute relative file path to git root (or use full path)
   let full_path = expand('%:p')
   let root_dir = substitute(system('git rev-parse --show-toplevel 2>/dev/null'), '\n\+$', '', '')
@@ -391,17 +391,14 @@ function! TmuxCodex()
   else
     let rel_path = full_path
   endif
-  " Abre un nuevo pane en tmux, teclean el comando con prompt entre comillas
-  " añade espacio final y coloca el cursor antes de la comilla para completar
-  " Build a tmux command that opens a split, types the codex invocation with a trailing space inside the quotes,
-  " then moves the cursor before the closing quote for user input
-  " Current line and construct codex command (path:line)
+  " Open a tmux split, type the command with prompt in quotes,
+  " and place cursor before the closing quote for user input
   let ln = line('.')
-  let cmd = "codex -c preferred_auth_method=apikey --full-auto 'En el contexto de la línea " . ln . " del archivo " . rel_path . " '"
+  let cmd = "opencode --prompt \"En el contexto de la línea " . ln . " del archivo " . rel_path . " \""
   let shell_cmd = "tmux split-window -h \\; send-keys " . shellescape(cmd) . " \\; send-keys Left"
   silent execute '!' . shell_cmd
 endfunction
-nnoremap <silent> <leader>c :call TmuxCodex()<CR>
+nnoremap <silent> <leader>o :call TmuxOpencode()<CR>
 
 " PLUGGED https://github.com/junegunn/vim-plug
 " autoinstallation
