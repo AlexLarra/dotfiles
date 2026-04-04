@@ -321,3 +321,38 @@ tg() {
   fi
 }
 
+# Start ngrok tunnel and send URL via Telegram
+share_tunnel() {
+  local port="${1:-3000}"
+
+  if ! command -v ngrok >/dev/null 2>&1; then
+    echo "Error: ngrok is not installed."
+    return 1
+  fi
+
+  # Start ngrok in background
+  ngrok http "$port" > /dev/null &
+  local ngrok_pid=$!
+
+  # Wait for API to be ready and capture URL
+  local url=""
+  for i in {1..10}; do
+    sleep 1
+    url=$(curl -s http://localhost:4040/api/tunnels 2>/dev/null | jq -r '.tunnels[0].public_url' 2>/dev/null)
+    if [[ -n "$url" && "$url" != "null" ]]; then
+      break
+    fi
+  done
+
+  if [[ -z "$url" || "$url" == "null" ]]; then
+    echo "Error: Could not capture ngrok URL."
+    kill "$ngrok_pid" 2>/dev/null
+    return 1
+  fi
+
+  echo "Tunnel URL: $url"
+  tg "$url"
+
+  # Bring ngrok to foreground
+  fg %ngrok 2>/dev/null || wait "$ngrok_pid"
+}
