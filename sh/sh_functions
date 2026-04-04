@@ -40,7 +40,7 @@ function tggpr() {
   tg "$(pr_url)"
 }
 
-function jira() {
+function jira_url() {
   if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
     echo "No estás dentro de un repositorio Git."
     return 1
@@ -54,7 +54,15 @@ function jira() {
   fi
 
   issue_encoded=$(printf '%s' "$issue_key" | sed 's#/#%2F#g')
-  firefox "https://crisalix.atlassian.net/browse/${issue_encoded}"
+  echo "https://crisalix.atlassian.net/browse/${issue_encoded}"
+}
+
+function jira() {
+  firefox "$(jira_url)"
+}
+
+function tgjira() {
+  tg "$(jira_url)"
 }
 
 # https://unix.stackexchange.com/a/109190
