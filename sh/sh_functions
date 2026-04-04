@@ -322,7 +322,7 @@ tg() {
 }
 
 # Start ngrok tunnel and send URL via Telegram
-share_tunnel() {
+tgngrok() {
   local port="${1:-3000}"
 
   if ! command -v ngrok >/dev/null 2>&1; then
