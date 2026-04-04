@@ -14,7 +14,7 @@ function rails_version {
   rails -v | sed 's/Rails //'
 }
 
-function gpr() {
+function pr_url() {
   github_url=$(git remote -v | awk '/fetch/{print $2}' | sed -Ee 's#(git@|git://)#https://#' -e 's@com:@com/@' -e 's%\.git$%%' | awk '/github/');
   branch_name=$(git symbolic-ref --short HEAD)
   repo=$(echo "$github_url" | sed -E 's#https://github.com/##')
@@ -23,13 +23,21 @@ function gpr() {
 
   head_filter="$owner:$branch_name"
 
-  pr_url=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$repo/pulls?head=$head_filter" | grep '"html_url":' | head -n 1 | awk -F '"' '{print $4}')
+  pr_api_url=$(curl -s -H "Authorization: token $GITHUB_TOKEN" "https://api.github.com/repos/$repo/pulls?head=$head_filter" | grep '"html_url":' | head -n 1 | awk -F '"' '{print $4}')
 
-  if [ -n "$pr_url" ]; then
-    firefox "$pr_url/files"
+  if [ -n "$pr_api_url" ]; then
+    echo "$pr_api_url/files"
   else
-    firefox "$github_url"
+    echo "$github_url"
   fi
+}
+
+function gpr() {
+  firefox "$(pr_url)"
+}
+
+function tggpr() {
+  tg "$(pr_url)"
 }
 
 function jira() {
