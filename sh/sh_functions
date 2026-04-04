@@ -293,3 +293,31 @@ qa_browser() {
   return 1
 }
 
+# Send a message to Telegram via bot API
+tg() {
+  local message="$*"
+  local chat_id="5155402"
+
+  if [[ -z "$TELEGRAM_BOT_KEY" ]]; then
+    echo "Error: TELEGRAM_BOT_KEY is not set."
+    return 1
+  fi
+
+  if [[ -z "$message" ]]; then
+    echo "Usage: tg <message>"
+    return 1
+  fi
+
+  local response=$(curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_KEY}/sendMessage" \
+    -d chat_id="$chat_id" \
+    -d text="$message")
+
+  if echo "$response" | grep -q '"ok":true'; then
+    echo "Message sent."
+  else
+    echo "Failed to send message."
+    echo "$response"
+    return 1
+  fi
+}
+
