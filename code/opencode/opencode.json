@@ -17,6 +17,6 @@
     }
   },
   "plugin": [
-    "opencode-anthropic-login-via-cli@latest"
+    "@ex-machina/opencode-anthropic-auth@1.7.1"
   ]
 }
