@@ -376,13 +376,14 @@ tgngrok() {
 # Diablo 2 con Wine - Pantalla completa
 diablo2() {
   export WINEPREFIX="$HOME/.wine"
-  
+
   # Matamos procesos previos
   pkill -9 "Diablo II" 2>/dev/null
   sleep 1
-  
+
   local game_path="$WINEPREFIX/drive_c/Program Files (x86)/Diablo II/Diablo II.exe"
-  
-  # Ejecutamos con escritorio virtual de 1920x1080
-  wine explorer /desktop=Diablo2,1920x1080 "$game_path" -w
+
+  # Ejecutamos con escritorio virtual de 1920x1080 en segundo plano
+  wine explorer /desktop=Diablo2,1920x1080 "$game_path" -w > /dev/null 2>&1 &
+  disown
 }
