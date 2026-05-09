@@ -399,7 +399,7 @@ ytmp3() {
   fi
 
   if ! command -v yt-dlp >/dev/null 2>&1; then
-    echo "Error: yt-dlp no está instalado. Instálalo con: pip install yt-dlp"
+    echo "Error: yt-dlp no está instalado. Instálalo con: sudo pacman -S yt-dlp python-mutagen"
     notify-send "ytmp3" "Error: yt-dlp no está instalado" --urgency=critical
     return 1
   fi
