@@ -387,3 +387,41 @@ diablo2() {
   wine explorer /desktop=Diablo2,1920x1080 "$game_path" -w > /dev/null 2>&1 &
   disown
 }
+
+# Descargar audio de YouTube en MP3
+ytmp3() {
+  local url="$1"
+  local output_dir="$HOME/Descargas"
+
+  if [[ -z "$url" ]]; then
+    echo "Uso: ytmp3 <URL de YouTube>"
+    return 1
+  fi
+
+  if ! command -v yt-dlp >/dev/null 2>&1; then
+    echo "Error: yt-dlp no está instalado. Instálalo con: pip install yt-dlp"
+    notify-send "ytmp3" "Error: yt-dlp no está instalado" --urgency=critical
+    return 1
+  fi
+
+  mkdir -p "$output_dir"
+
+  echo "Descargando audio de: $url"
+  echo "Destino: $output_dir"
+
+  if yt-dlp -x --audio-format mp3 --audio-quality 0 \
+    -o "$output_dir/%(title)s.%(ext)s" \
+    --embed-thumbnail \
+    --add-metadata \
+    "$url" 2>&1; then
+
+    local filename
+    filename=$(yt-dlp --get-filename -o "%(title)s.mp3" "$url" 2>/dev/null)
+    notify-send "ytmp3" "✅ Descarga completada: $filename" --urgency=normal
+    echo "✅ Descarga completada exitosamente"
+  else
+    notify-send "ytmp3" "❌ Error al descargar el audio" --urgency=critical
+    echo "❌ Error al descargar el audio"
+    return 1
+  fi
+}
