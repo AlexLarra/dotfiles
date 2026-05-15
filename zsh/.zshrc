@@ -43,3 +43,11 @@ export COINTOP_CONFIG="~/.cointop_config.toml"
 
 # move through fzf with Tab and no arrow keys
 export FZF_DEFAULT_OPTS="--bind tab:down,shift-tab:up"
+
+# pnpm
+export PNPM_HOME="/home/alex/.local/share/pnpm"
+case ":$PATH:" in
+  *":$PNPM_HOME/bin:"*) ;;
+  *) export PATH="$PNPM_HOME/bin:$PATH" ;;
+esac
+# pnpm end

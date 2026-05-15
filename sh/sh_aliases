@@ -42,3 +42,7 @@ alias rt='bundle exec rake -T --all'
 alias tt="DRIVER=selenium_headless BROWSER=firefox bundle exec rspec; notify-send 'Rspec' 'Terminaron los tests.'"
 
 alias nt="notify-send 'Notificación manual' 'Seguimos'"
+
+alias npm="pnpm"
+alias npx="pnpm dlx"
+alias yarn='echo "use pnpm"'
