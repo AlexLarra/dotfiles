@@ -276,33 +276,7 @@ endfunction
 
 set tabline=%!MyTabLine()
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Save last session
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! MakeSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  if (filewritable(b:sessiondir) != 2)
-    exe 'silent !mkdir -p ' b:sessiondir
-    redraw!
-  endif
-  let b:filename = b:sessiondir . '/session.vim'
-  exe "mksession! " . b:filename
-endfunction
 
-function! LoadSession()
-  let b:sessiondir = $HOME . "/.vim/sessions" . getcwd()
-  let b:sessionfile = b:sessiondir . "/session.vim"
-  if (filereadable(b:sessionfile))
-    exe 'source ' b:sessionfile
-  else
-    echo "No session loaded."
-  endif
-endfunction
-
-if !exists("g:avoidSession")
-  au VimEnter * nested :call LoadSession()
-  au VimLeave * :call MakeSession()
-end
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -455,3 +429,198 @@ call plug#end()
 if len(filter(values(g:plugs), '!isdirectory(v:val.dir)'))
   autocmd VimEnter * PlugInstall --sync | source $MYVIMRC
 endif
+
+" ============================================================
+" => Tmux Integration: RSpec without blocking Vim
+" ============================================================
+function! TmuxRspec(spec)
+  let g:last_rspec_spec = a:spec
+
+  let pane_id = substitute(system("tmux split-window -h -P -F '#{pane_id}'"), '\n', '', 'g')
+  if empty(pane_id) | return | endif
+
+  if a:spec == ''
+    let rspec_args = ''
+  else
+    let rspec_args = ' ' . shellescape(a:spec)
+  endif
+
+  let cmd = 'cd ' . shellescape(getcwd()) . ' && bundle exec rspec --format progress --require ~/workspace/dotfiles/code/rspec/quickfix_formatter.rb --format QuickfixFormatter --out quickfix.out' . rspec_args
+  silent call system('tmux send-keys -t ' . pane_id . ' ' . shellescape(cmd) . ' C-m')
+endfunction
+
+" Direct mappings (override vim-rspec defaults after plug#end)
+nmap <silent> <Leader>rf :call TmuxRspec(expand('%:p'))<CR>
+nmap <silent> <Leader>rt :call TmuxRspec(expand('%:p') . ':' . line('.'))<CR>
+nmap <silent> <Leader>rl :call TmuxRspec(get(g:, 'last_rspec_spec', ''))<CR>
+nmap <silent> <Leader>ra :call TmuxRspec('')<CR>
+
+" ============================================================
+" => Get visual selection helper
+" ============================================================
+function! GetVisualSelection()
+  let [line_start, col_start] = getpos("'<")[1:2]
+  let [line_end, col_end] = getpos("'>")[1:2]
+  let lines = getline(line_start, line_end)
+  if len(lines) == 0
+    return ''
+  endif
+  let lines[-1] = lines[-1][:col_end - (&selection == 'inclusive' ? 1 : 2)]
+  let lines[0] = lines[0][col_start - 1:]
+  return join(lines, "\n")
+endfunction
+
+" ============================================================
+" => Opencode modes (Normal + Visual)
+" ============================================================
+function! OpencodeMode(mode, text)
+  let full_path = expand('%:p')
+  let root_dir = substitute(system('git rev-parse --show-toplevel 2>/dev/null'), '\n\+$', '', '')
+  if !empty(root_dir)
+    let rel_path = substitute(full_path, '^'.escape(root_dir, '\').'/', '', '')
+  else
+    let rel_path = full_path
+  endif
+  let ln = line('.')
+  let selection = a:text
+
+  if empty(selection)
+    if a:mode == 'explain'
+      let prompt = "Explain the method at line " . ln . " in " . rel_path . ". Describe inputs, outputs, and side effects."
+    elseif a:mode == 'refactor'
+      let prompt = "Refactor the code at line " . ln . " in " . rel_path . " to be more idiomatic and efficient. Show the improved code and explain changes."
+    elseif a:mode == 'test'
+      let prompt = "Generate a comprehensive RSpec test for the code at line " . ln . " in " . rel_path . ". Include edge cases."
+    else
+      let prompt = a:mode
+    endif
+  else
+    let escaped_selection = substitute(selection, '"', '\\"', 'g')
+    if a:mode == 'explain'
+      let prompt = "Explain the following Ruby code from " . rel_path . " at line " . ln . ":\n\n" . escaped_selection
+    elseif a:mode == 'refactor'
+      let prompt = "Refactor the following code from " . rel_path . " at line " . ln . " to be more idiomatic and efficient. Show the improved code and explain changes:\n\n" . escaped_selection
+    elseif a:mode == 'test'
+      let prompt = "Generate a comprehensive RSpec test for the following code from " . rel_path . " at line " . ln . ". Include edge cases:\n\n" . escaped_selection
+    else
+      let prompt = a:mode . " (from " . rel_path . " at line " . ln . "):\n\n" . escaped_selection
+    endif
+  endif
+
+  let cmd = "opencode --prompt \"" . prompt . "\""
+  silent call system("tmux split-window -h \\; send-keys " . shellescape(cmd) . " \\; send-keys Left")
+endfunction
+
+" Normal mode: use file+line context
+nnoremap <silent> <leader>oe :call OpencodeMode('explain', '')<CR>
+nnoremap <silent> <leader>or :call OpencodeMode('refactor', '')<CR>
+nnoremap <silent> <leader>ot :call OpencodeMode('test', '')<CR>
+" Visual mode: yank selection to register z and pass it
+vnoremap <silent> <leader>oe "zy:call OpencodeMode('explain', @z)<CR>
+vnoremap <silent> <leader>or "zy:call OpencodeMode('refactor', @z)<CR>
+vnoremap <silent> <leader>ot "zy:call OpencodeMode('test', @z)<CR>
+
+" ============================================================
+" => Tmux logs -> Vim last error
+" ============================================================
+function! TmuxFindRailsPane()
+  let win = substitute(system('tmux display-message -p "#I"'), '\n\+$', '', '')
+  let panes = system('tmux list-panes -t work:' . win . ' -F "#{pane_index} #{pane_current_command}"')
+
+  for line in split(panes, '\n')
+    let parts = split(line)
+    if len(parts) >= 2
+      let idx = parts[0]
+      let cmd = parts[1]
+      if cmd =~ 'puma\|rails\|spring\|ruby'
+        return 'work:' . win . '.' . idx
+      endif
+    endif
+  endfor
+
+  " No fallback: let caller handle missing pane
+  return ''
+endfunction
+
+function! TmuxGotoLastError()
+  let pane = TmuxFindRailsPane()
+  if empty(pane)
+    echo "No Rails pane found"
+    return
+  endif
+  let logs = system('tmux capture-pane -p -t ' . shellescape(pane) . ' | tail -n 100')
+
+  let lines = split(logs, '\n')
+  let error_idx = -1
+
+  " Find the last error line (from bottom to top)
+  for i in range(len(lines) - 1, 0, -1)
+    if lines[i] =~ 'Error\|Exception\|Completed 500\|NameError\|RuntimeError\|NoMethodError\|ArgumentError\|StandardError'
+      let error_idx = i
+      break
+    endif
+  endfor
+
+  if error_idx == -1
+    echo "No error found in logs"
+    return
+  endif
+
+  " Find the first file.rb:line after the error (top of the stack trace)
+  let last_match = []
+  for i in range(error_idx, len(lines) - 1)
+    let m = matchlist(lines[i], '\([a-zA-Z0-9_\-/]\+\.rb\):\(\d\+\)')
+    if !empty(m)
+      let last_match = [m[1], m[2]]
+      break
+    endif
+  endfor
+
+  if empty(last_match)
+    echo "No error pattern found in logs"
+    return
+  endif
+
+  let root = substitute(system('git rev-parse --show-toplevel 2>/dev/null'), '\n\+$', '', '')
+  if empty(root)
+    echo "Not inside a git repository"
+    return
+  endif
+  let full = root . '/' . last_match[0]
+  if filereadable(full)
+    execute 'tabedit +' . last_match[1] . ' ' . fnameescape(full)
+  else
+    echo "File not found: " . full
+  endif
+endfunction
+nnoremap <silent> <leader>le :call TmuxGotoLastError()<CR>
+
+" ============================================================
+" => Rails test toggle (app <-> spec)
+" ============================================================
+function! OpenRailsTest()
+  let current = expand('%:p')
+  let test = substitute(current, 'app/\(.\+\)\.rb', 'spec/\1_spec.rb', '')
+  if test == current
+    let test = substitute(current, 'lib/\(.\+\)\.rb', 'spec/\1_spec.rb', '')
+  endif
+  " If already in spec, go back to implementation
+  if test == current
+    let test = substitute(current, 'spec/\(.\+\)_spec\.rb', 'app/\1.rb', '')
+    if test == current
+      let test = substitute(current, 'spec/\(.\+\)_spec\.rb', 'lib/\1.rb', '')
+    endif
+  endif
+
+  if filereadable(test)
+    execute 'tabedit ' . fnameescape(test)
+  else
+    let root = substitute(system('git rev-parse --show-toplevel 2>/dev/null'), '\n\+$', '', '')
+    if !empty(root)
+      call fzf#run(fzf#wrap({'source': 'find ' . shellescape(root . '/spec') . ' -type f', 'sink': 'tabedit'}))
+    else
+      echo "Could not find corresponding test file"
+    endif
+  endif
+endfunction
+nnoremap <silent> <leader>tt :call OpenRailsTest()<CR>
