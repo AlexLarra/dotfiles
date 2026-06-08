@@ -67,7 +67,7 @@ let mapleader = " "
 "     <Space>ot          generate test (file+line / visual)
 "
 "   Tmux ↔ Vim
-"     <Space>le          jump to last Rails error
+"     <Space>e           jump to last Rails error
 "     <Space>tt          toggle implementation ↔ test
 "
 "   Motion
@@ -653,7 +653,7 @@ function! TmuxGotoLastError()
     echo "File not found: " . full
   endif
 endfunction
-nnoremap <silent> <leader>le :call TmuxGotoLastError()<CR>
+nnoremap <silent> <leader>e :call TmuxGotoLastError()<CR>
 
 " ============================================================
 " => Rails test toggle (app <-> spec)
