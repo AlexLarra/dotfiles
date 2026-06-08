@@ -73,9 +73,6 @@ let mapleader = " "
 "   Motion
 "     <M-d/u>           move line(s) down/up
 "
-"   Netrw
-"     <C-b>             :Lexplore
-"
 " ============================================================
 
 " :W sudo saves the file
@@ -353,9 +350,7 @@ autocmd BufWritePre * :%s/\s\+$//e
 
 " NETRW
 " https://gist.github.com/danidiaz/37a69305e2ed3319bfff9631175c5d0f
-nmap <F6> I
 let g:netrw_banner = 0
-map <C-b> :Lexplore<cr>
 
 " HACK for gnome-terminal Alt problem
 " https://stackoverflow.com/a/10216459/2988753
