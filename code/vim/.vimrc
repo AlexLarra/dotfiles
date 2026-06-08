@@ -11,6 +11,75 @@ au CursorHold,CursorHoldI * checktime
 " like <leader>w saves the current file
 let mapleader = " "
 
+" ============================================================
+" => CHEATSHEET (Leader = <Space>)
+" ============================================================
+"   General
+"     <Space>w          sudo save
+"     <C-y> (v)         yank to clipboard
+"     <C-s>             save
+"     jj (i)            exit insert mode
+"     ^                 clear search highlight
+"
+"   Buffers & Tabs
+"     <Space>h/l        prev/next buffer
+"     <Space>ba         close all buffers
+"     <Space>to         tab only
+"     <Space>tc         close tab
+"     <Space>tm         move tab
+"     <Space>tl         last tab
+"     <Space>n          new file in current dir
+"     tt                :Texplore
+"
+"   Splits & Panes (Vim)
+"     <Space>-          horizontal split
+"     <Space>+          vertical split
+"     S-h/j/k/l         move between splits
+"     <M-h/j/k/l>       prev/next tab
+"
+"   Fzf
+"     <Space>f          fuzzy file → tabedit
+"     <Space>F          fuzzy file → edit
+"
+"   Search & Replace
+"     <Space>d          replace word under cursor
+"     <Space>sa         select all
+"     <Space>sl          select line
+"
+"   Rails / Quickfix
+"     <Space>q          load quickfix.out
+"     <Space>m          open last migration
+"     <Space>g          changed files vs master
+"
+"   Git
+"     <Space>gn/gp      next/prev hunk
+"     <Space>ga          stage hunk
+"     <Space>gu          undo hunk
+"
+"   RSpec → Tmux (non-blocking)
+"     <Space>rf          current spec file
+"     <Space>rt          nearest spec (line)
+"     <Space>rl          last spec
+"     <Space>ra          all specs
+"
+"   Opencode → Tmux
+"     <Space>o           free prompt (file + line)
+"     <Space>oe          explain (file+line / visual)
+"     <Space>or          refactor (file+line / visual)
+"     <Space>ot          generate test (file+line / visual)
+"
+"   Tmux ↔ Vim
+"     <Space>le          jump to last Rails error
+"     <Space>tt          toggle implementation ↔ test
+"
+"   Motion
+"     <M-d/u>           move line(s) down/up
+"
+"   Netrw
+"     <C-b>             :Lexplore
+"
+" ============================================================
+
 " :W sudo saves the file
 " (useful for handling the permission-denied error)
 command! W execute 'w !sudo tee % > /dev/null' <bar> edit!
