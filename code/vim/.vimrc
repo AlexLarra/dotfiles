@@ -44,7 +44,7 @@ let mapleader = " "
 "   Search & Replace
 "     <Space>d          replace word under cursor
 "     <Space>sa         select all
-"     <Space>sl          select line
+"     <Space>sl         select line
 "
 "   Rails / Quickfix
 "     <Space>q          load quickfix.out
@@ -53,8 +53,8 @@ let mapleader = " "
 "
 "   Git
 "     <Space>gn/gp      next/prev hunk
-"     <Space>ga          stage hunk
-"     <Space>gu          undo hunk
+"     <Space>ga         stage hunk
+"     <Space>gu         undo hunk
 "
 "   RSpec → Tmux (non-blocking)
 "     <Space>rf          current spec file
