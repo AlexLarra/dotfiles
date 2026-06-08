@@ -27,9 +27,7 @@ let mapleader = " "
 "     <Space>to         tab only
 "     <Space>tc         close tab
 "     <Space>tm         move tab
-"     <Space>tl         last tab
-"     <Space>n          new file in current dir
-"     tt                :Texplore
+"     <Space>n          :Texplore (file explorer)
 "
 "   Splits & Panes (Vim)
 "     <Space>-          horizontal split
@@ -206,7 +204,6 @@ map <leader>l :bnext<cr>
 map <leader>h :bprevious<cr>
 
 " Useful mappings for managing tabs
-nnoremap tt :Texplore<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove<cr>
@@ -216,15 +213,9 @@ nmap <c-s> :w<CR>
 vmap <c-s> <Esc><c-s>gv
 imap <c-s> <Esc><c-s>
 
-" Let 'tl' toggle between this and the last accessed tab
-let g:lasttab = 1
-nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
-au TabLeave * let g:lasttab = tabpagenr()
-
-
 " Opens a new tab with the current buffer's path
 " Super useful when editing files in the same directory
-nnoremap <leader>n :tabedit <C-r>=expand("%:p:h")<CR>/<CR>
+nnoremap <leader>n :Texplore<CR>
 
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
