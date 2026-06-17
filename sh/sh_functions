@@ -388,6 +388,75 @@ diablo2() {
   disown
 }
 
+# CS:S / CS2 / CS:GO server IP to clipboard from Linux Steam process
+# Usage: open the game console, run `status`, then run `csserv` in the terminal.
+# console logging is already enabled via autoexec.cfg (con_logfile console.log).
+csserv() {
+  local pid
+  pid=$(pgrep -x cstrike_linux64 || pgrep -x hl2_linux || pgrep -x csgo_linux64 || pgrep -x cs2)
+  if [[ -z "$pid" ]]; then
+    echo "No se encontró proceso de CS (cstrike_linux64, hl2_linux, csgo_linux64, cs2)" >&2
+    return 1
+  fi
+
+  local game_dir
+  game_dir=$(readlink -f "/proc/$pid/exe" 2>/dev/null)
+  if [[ -z "$game_dir" ]]; then
+    echo "No se pudo determinar el directorio del juego" >&2
+    return 1
+  fi
+  game_dir=$(dirname "$game_dir")
+
+  local addr
+  local console_log="$game_dir/cstrike/console.log"
+
+  # Method 1: parse console.log (requires con_logfile console.log inside game)
+  if [[ -f "$console_log" ]]; then
+    addr=$(grep -oP 'udp/ip\s*:\s*\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+' "$console_log" | tail -n 1)
+    if [[ -z "$addr" ]]; then
+      addr=$(grep -oP 'Connected to\s+\K[0-9]+\.[0-9]+\.[0-9]+\.[0-9]+:[0-9]+' "$console_log" | tail -n 1)
+    fi
+  fi
+
+  # Method 2: sudo conntrack (requires root and conntrack package)
+  if [[ -z "$addr" ]] && command -v conntrack >/dev/null 2>&1; then
+    local local_ports
+    local_ports=$(ss -uanp 2>/dev/null | awk -v p="$pid" '$0 ~ "pid=" p {print $4}' | cut -d: -f2 | paste -sd'|')
+    if [[ -n "$local_ports" ]]; then
+      local ct_line
+      ct_line=$(sudo conntrack -L -p udp 2>/dev/null | grep -m1 -E "sport=($local_ports)")
+      if [[ -n "$ct_line" ]]; then
+        addr=$(echo "$ct_line" | grep -oP 'dst=\K[0-9.]+'):$(echo "$ct_line" | grep -oP 'dport=\K[0-9]+')
+      fi
+    fi
+  fi
+
+  if [[ -z "$addr" ]]; then
+    echo "No se pudo obtener la IP del servidor." >&2
+    echo "" >&2
+    echo "Asegúrate de haber ejecutado 'status' en la consola del juego primero." >&2
+    echo "console.log ya está activado por autoexec.cfg (con_logfile console.log)." >&2
+    echo "" >&2
+    echo "Solución con privilegios:" >&2
+    echo "  Instala conntrack-tools y configura sudo sin contraseña para obtener la IP automáticamente." >&2
+    return 1
+  fi
+
+  local connect_cmd="connect $addr"
+
+  if command -v wl-copy >/dev/null 2>&1; then
+    echo -n "$connect_cmd" | wl-copy
+  elif command -v xclip >/dev/null 2>&1; then
+    echo -n "$connect_cmd" | xclip -selection clipboard
+  else
+    echo "$connect_cmd"
+    echo "Instala wl-copy (Wayland) o xclip (X11) para copiar al portapapeles" >&2
+    return 1
+  fi
+
+  echo "Copiado al portapapeles: $connect_cmd"
+}
+
 # Descargar audio de YouTube en MP3
 ytmp3() {
   local url="$1"
