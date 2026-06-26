@@ -395,7 +395,7 @@ function! OpenChangedFiles()
   endif
 
   " Obtén los archivos cambiados respecto a la rama master
-  let l:changed_files = systemlist("git diff --name-only master")
+  let l:changed_files = systemlist("git diff --name-only master...HEAD")
 
   " Si no hay archivos cambiados, muestra un mensaje y termina
   if empty(l:changed_files)
