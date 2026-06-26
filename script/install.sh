@@ -16,6 +16,7 @@ function install {
   mkdir -p ~/.config/alacritty
   ln -sf "$dotfiles_dir/code/alacritty/alacritty.toml" ~/.config/alacritty/alacritty.toml
   ln -sf "$dotfiles_dir/code/opencode/opencode.json" ~/.config/opencode/opencode.json
+  ln -sf "$dotfiles_dir/code/opencode/AGENTS.md" ~/.config/opencode/AGENTS.md
   ln -sf "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
   ln -sf "$dotfiles_dir/zsh" ~/.zsh
   mkdir ~/.cache/zsh # For zsh history
