@@ -464,12 +464,6 @@ let g:gh_line_map = '<leader>gl'
 let g:gh_line_blame_map = '<leader>gb'
 let g:gh_repo_map = '<leader>go'
 
-Plug 'thoughtbot/vim-rspec'
-map <Leader>rf :call RunCurrentSpecFile()<CR>
-map <Leader>rt :call RunNearestSpec()<CR>
-map <Leader>rl :call RunLastSpec()<CR>
-map <Leader>ra :call RunAllSpecs()<CR>
-
 Plug 'jiangmiao/auto-pairs'
 
 Plug 'tpope/vim-commentary'
