@@ -137,8 +137,8 @@ set number
 " Be able to use mouse to move pointer and select text
 set mouse=a
 
-" Copy to clipboard, It needs gvim to be installed
-vmap <C-y> "+y"
+" Copy to clipboard using wl-copy (no gvim needed)
+vmap <C-y> y :silent call system('wl-copy', @")<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
