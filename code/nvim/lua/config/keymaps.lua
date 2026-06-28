@@ -33,7 +33,7 @@
 --     <Space>a          live grep (rg) -> tab
 --     <Space>A          grep word under cursor (rg) -> tab
 --
--- Rails / Quickfix
+--   Rails / Quickfix
 --     <Space>q          load quickfix.out
 --     <Space>m          open last migration
 --     <Space>g          changed files vs master
