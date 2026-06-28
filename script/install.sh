@@ -38,7 +38,6 @@ function install {
   symlink "$dotfiles_dir/zsh/.zshrc" ~/.zshrc
   symlink "$dotfiles_dir/zsh" ~/.zsh
   mkdir -p ~/.cache/zsh # For zsh history
-  symlink "$dotfiles_dir/cointop/config.toml" ~/.cointop_config.toml
 
   source ~/.zshrc
 
