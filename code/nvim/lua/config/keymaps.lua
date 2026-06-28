@@ -30,8 +30,8 @@
 --     <Space>d          replace word under cursor
 --     <Space>sa         select all
 --     <Space>sl         select line
---     <Space>a          live grep (rg)
---     <Space>A          grep word under cursor (rg)
+--     <Space>a          live grep (rg) -> tab
+--     <Space>A          grep word under cursor (rg) -> tab
 --
 -- Rails / Quickfix
 --     <Space>q          load quickfix.out

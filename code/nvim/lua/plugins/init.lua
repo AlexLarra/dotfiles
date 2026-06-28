@@ -59,15 +59,18 @@ return {
     config = function()
       local fzf = require("fzf-lua")
       fzf.setup({
+        actions = {
+          files = {
+            ["default"] = fzf.actions.file_tabedit,
+          },
+        },
         files = {
           cmd = vim.env.FZF_DEFAULT_COMMAND,
         },
       })
 
-      -- Fuzzy file -> tabedit
-      vim.keymap.set("n", "<Leader>f", function()
-        fzf.files({ actions = { ["default"] = fzf.actions.file_tabedit } })
-      end)
+      -- Fuzzy file -> tabedit (default action)
+      vim.keymap.set("n", "<Leader>f", fzf.files)
 
       -- Fuzzy file -> edit
       vim.keymap.set("n", "<Leader>F", function()
