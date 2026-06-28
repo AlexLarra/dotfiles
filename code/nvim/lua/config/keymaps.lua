@@ -30,14 +30,14 @@
 --     <Space>d          replace word under cursor
 --     <Space>sa         select all
 --     <Space>sl         select line
---     <Space>a          Ack search
---     <Space>A          Ack word under cursor
+--     <Space>a          live grep (rg)
+--     <Space>A          grep word under cursor (rg)
 --
-  -- Rails / Quickfix
-  --     <Space>q          load quickfix.out
-  --     <Space>m          open last migration
-  --     <Space>g          changed files vs master
-  --     <Space>gs         modified files (staged/unstaged) vs HEAD
+-- Rails / Quickfix
+--     <Space>q          load quickfix.out
+--     <Space>m          open last migration
+--     <Space>g          changed files vs master
+--     <Space>gs         modified files (staged/unstaged) vs HEAD
 --
 --   Git
 --     <Space>gn/gp      next/prev hunk
@@ -129,9 +129,9 @@ vim.api.nvim_create_user_command("W", function()
   vim.cmd("edit!")
 end, {})
 
--- Ack
-keymap("n", "<Leader>a", ":Ack \"\"<Left>")
-keymap("n", "<Leader>A", ":Ack <C-r><C-w><CR>")
+-- Grep (ripgrep via fzf-lua)
+keymap("n", "<Leader>a", function() require("fzf-lua").live_grep() end)
+keymap("n", "<Leader>A", function() require("fzf-lua").grep_cword() end)
 
 -- Quickfix
 keymap("n", "<leader>q", ":cg quickfix.out | cwindow<CR>")

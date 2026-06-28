@@ -6,8 +6,6 @@ return {
       vim.cmd("colorscheme sonokai")
     end,
   },
-  { "mileszs/ack.vim" },
-
   {
     "ruanyl/vim-gh-line",
     init = function()
