@@ -55,6 +55,38 @@ function M.open_changed_files()
   })
 end
 
+function M.open_modified_files()
+  local root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n+$", "")
+  if root == "" then
+    print("Not inside a git repository.")
+    return
+  end
+
+  local changed = vim.fn.systemlist("cd " .. vim.fn.shellescape(root) .. " && git diff --name-only HEAD")
+
+  local filtered = {}
+  for _, f in ipairs(changed) do
+    if f ~= "" then
+      local abs = root .. "/" .. f
+      local rel = vim.fn.fnamemodify(abs, ":.")
+      table.insert(filtered, rel)
+    end
+  end
+
+  if #filtered == 0 then
+    print("No modified files (staged or unstaged).")
+    return
+  end
+
+  local fzf = require("fzf-lua")
+  fzf.fzf_exec(filtered, {
+    previewer = "builtin",
+    actions = {
+      ["default"] = fzf.actions.file_tabedit,
+    },
+  })
+end
+
 function M.tmux_opencode()
   local full_path = vim.fn.expand("%:p")
   local root = vim.fn.system("git rev-parse --show-toplevel 2>/dev/null"):gsub("\n+$", "")

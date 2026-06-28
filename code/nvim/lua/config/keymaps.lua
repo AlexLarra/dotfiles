@@ -33,10 +33,11 @@
 --     <Space>a          Ack search
 --     <Space>A          Ack word under cursor
 --
---   Rails / Quickfix
---     <Space>q          load quickfix.out
---     <Space>m          open last migration
---     <Space>g          changed files vs master
+  -- Rails / Quickfix
+  --     <Space>q          load quickfix.out
+  --     <Space>m          open last migration
+  --     <Space>g          changed files vs master
+  --     <Space>gs         modified files (staged/unstaged) vs HEAD
 --
 --   Git
 --     <Space>gn/gp      next/prev hunk
@@ -144,9 +145,10 @@ keymap("v", "<M-u>", ":m'<-2<cr>`>my`<mzgv`yo`z")
 -- Custom functions
 local funcs = require("config.functions")
 
-keymap("n", "<leader>m", funcs.open_last_migration)
-keymap("n", "<leader>g", funcs.open_changed_files)
-keymap("n", "<leader>o", funcs.tmux_opencode, { silent = true })
+  keymap("n", "<leader>m", funcs.open_last_migration)
+  keymap("n", "<leader>g", funcs.open_changed_files)
+  keymap("n", "<leader>gs", funcs.open_modified_files)
+  keymap("n", "<leader>o", funcs.tmux_opencode, { silent = true })
 
 keymap("n", "<leader>rf", function() funcs.tmux_rspec(vim.fn.expand("%:p")) end, { silent = true })
 keymap("n", "<leader>rt", function() funcs.tmux_rspec(vim.fn.expand("%:p") .. ":" .. vim.fn.line(".")) end, { silent = true })
