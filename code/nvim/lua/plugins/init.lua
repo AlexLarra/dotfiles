@@ -38,7 +38,7 @@ return {
           vim.keymap.set("n", "<leader>gn", gs.next_hunk, { buffer = bufnr })
           vim.keymap.set("n", "<leader>gp", gs.prev_hunk, { buffer = bufnr })
           vim.keymap.set("n", "<leader>ga", gs.stage_hunk, { buffer = bufnr })
-          vim.keymap.set("n", "<leader>gu", gs.undo_stage_hunk, { buffer = bufnr })
+          vim.keymap.set("n", "<leader>gu", gs.reset_hunk, { buffer = bufnr })
         end,
       })
     end,
