@@ -24,8 +24,6 @@ function symlink {
 function install {
   symlink "$dotfiles_dir/sh/sh_aliases" ~/.sh_aliases
   symlink "$dotfiles_dir/sh/sh_functions" ~/.sh_functions
-  symlink "$dotfiles_dir/code/vim/.vimrc" ~/.vimrc
-  symlink "$dotfiles_dir/code/vim/.ackrc" ~/.ackrc
   symlink "$dotfiles_dir/code/nvim" ~/.config/nvim
   symlink "$dotfiles_dir/code/git/.gitignore" ~/.gitignore
   symlink "$dotfiles_dir/code/git/.gitconfig" ~/.gitconfig
