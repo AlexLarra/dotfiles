@@ -62,7 +62,7 @@ function M.open_modified_files()
     return
   end
 
-  local changed = vim.fn.systemlist("cd " .. vim.fn.shellescape(root) .. " && git diff --name-only HEAD")
+  local changed = vim.fn.systemlist("cd " .. vim.fn.shellescape(root) .. " && git diff --name-only HEAD && git ls-files --others --exclude-standard")
 
   local filtered = {}
   for _, f in ipairs(changed) do
