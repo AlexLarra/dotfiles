@@ -45,6 +45,10 @@ opt.ruler = true
 opt.scrolloff = 7
 opt.hidden = true
 opt.switchbuf = "useopen,usetab,newtab"
+
+-- Use zsh with interactive flag so :! picks up functions from ~/.sh_functions
+opt.shell = "zsh"
+opt.shellcmdflag = "-ic"
 opt.showtabline = 2
 opt.updatetime = 300
 
