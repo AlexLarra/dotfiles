@@ -67,7 +67,7 @@ tmux send-keys -t work 'bin/crisalix-cli capistrano crisalix_admin -e staging -t
 tmux new-window -t work -n utilities\; \split-window -v \; \split-window -h \; \select-pane -t 1 \; \split-window -h
 tmux select-pane -t 1
 tmux send-keys -t work 'clear' c-m
-tmux send-keys -t work 'cointop'
+tmux send-keys -t work 'myip'
 tmux select-pane -t 2
 tmux send-keys -t work 'cmus' c-m
 tmux select-pane -t 3

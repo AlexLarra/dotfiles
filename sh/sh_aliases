@@ -45,4 +45,3 @@ alias nt="notify-send 'Notificación manual' 'Seguimos'"
 
 alias npm="pnpm"
 alias npx="pnpm dlx"
-alias yarn='echo "use pnpm install"'

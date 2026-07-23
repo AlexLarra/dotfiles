@@ -29,12 +29,10 @@ Programs
  - rvm
  - git
  - diff-so-fancy
- - vim
- - gvim (for copy to clipboard)
+ - neovim
  - npm
    - npm install --global pure-prompt (https://github.com/sindresorhus/pure)
      ([Solution to posible problem](https://stackoverflow.com/a/55172709/2988753))
  - cmus
- - cointop
  - neofetch
  - [codex](https://help.openai.com/en/articles/11096431-openai-codex-cli-getting-started)
