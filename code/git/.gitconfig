@@ -3,7 +3,7 @@
 	email = alexander.larrazabal@crisalix.com
 	name = AlexLarra
 [pull]
-	rebase = false
+	rebase = true
 [core]
 	excludesfile = /home/alex/.gitignore
 	pager = diff-so-fancy | less --tabs=4 -RFX
