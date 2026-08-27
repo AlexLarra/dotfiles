@@ -240,10 +240,9 @@ qa_browser() {
   # Prepare profile/symlink and clear the log before using it.
   mkdir -p "$user_dir"
   mkdir -p "$(dirname "$port_link")"
-  if [[ -e "$port_link" ]]; then
+  if [[ -L "$port_link" ]]; then
     rm -f "$port_link"
   fi
-  ln -sfn "$port_file" "$port_link"
   : > "$log_file"
 
   # If an active DevTools exists, try to reuse its port.
@@ -264,6 +263,7 @@ qa_browser() {
       ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
       if [[ -n "$ws_path" ]]; then
         printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+        cp "$port_file" "$port_link"
       fi
     fi
     echo "DevTools already responding on localhost:${port}"
@@ -293,11 +293,12 @@ qa_browser() {
       ws_url=$(printf '%s' "$resp" | tr -d '\n' | sed -n 's/.*"webSocketDebuggerUrl"[[:space:]]*:[[:space:]]*"\([^"]*\)".*/\1/p')
       if [[ -n "$ws_url" ]]; then
         ws_path=$(printf '%s\n' "$ws_url" | sed -E 's#^[^/]*//[^/]+(/.*)#\1#')
-        if [[ -n "$ws_path" ]]; then
-          printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
-        fi
+      if [[ -n "$ws_path" ]]; then
+        printf "%s\n%s\n" "$port" "$ws_path" > "$port_file"
+        cp "$port_file" "$port_link"
       fi
-      echo "✅ DevTools ready on localhost:${port}"
+    fi
+    echo "✅ DevTools ready on localhost:${port}"
       [[ -n "$ws_url" ]] && echo "WS: $ws_url"
       return 0
     fi
