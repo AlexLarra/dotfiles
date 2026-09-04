@@ -495,3 +495,11 @@ ytmp3() {
     return 1
   fi
 }
+
+function tw() {
+  if [[ -n "$TMUX" ]] && [[ "$(tmux display-message -p '#S')" == "work" ]]; then
+    echo "Already in work session."
+    return 0
+  fi
+  tmux attach -t work || sh ~/.tmux_work.zsh
+}
