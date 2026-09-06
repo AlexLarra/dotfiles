@@ -69,7 +69,7 @@ tmux select-pane -t 1
 tmux send-keys -t work 'clear' c-m
 tmux send-keys -t work 'myip'
 tmux select-pane -t 2
-tmux send-keys -t work 'termusic --shuffle ~/Música' c-m
+tmux send-keys -t work 'tuiplayer --shuffle ~/Música' c-m
 tmux select-pane -t 3
 tmux send-keys -t work 'clear' c-m
 tmux send-keys -t work 'neofetch --cpu_temp "C" --color_blocks "off"'
