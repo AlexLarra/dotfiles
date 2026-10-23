@@ -1,6 +1,6 @@
 source ~/.sh_aliases
 source ~/.sh_functions
-source ~/.dotfiles.env # For gpr() and iacommit(); https://github.com/settings/tokens
+set -a; source ~/.dotfiles.env; set +a  # Export all vars for child processes (crisalix-cli, etc.)
 
 # Add RVM to PATH for scripting. Make sure this is the last PATH variable change.
 export PATH="$PATH:$HOME/.rvm/bin"
