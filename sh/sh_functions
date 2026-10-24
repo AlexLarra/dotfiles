@@ -503,3 +503,54 @@ function tw() {
   fi
   tmux attach -t work || sh ~/.tmux_work.zsh
 }
+
+# Abre app en Firefox según ventana tmux y entorno
+# Uso: openapp <local|staging|production>
+function openapp() {
+  local app=$(tmux display-message -p '#W' 2>/dev/null)
+  local env="$1"
+  local url
+
+  case "$app" in
+    admin)
+      case "$env" in
+        local)      url="http://manager.crisalix.local:3000" ;;
+        staging)    url="https://manager-staging.crisalix.com" ;;
+        production) url="https://manager.crisalix.com" ;;
+      esac ;;
+    estetix)
+      case "$env" in
+        local)      url="http://estetix.crisalix.local:3001" ;;
+        staging)    url="https://estetix-staging.crisalix.com" ;;
+        production) url="https://pro.crisalix.com" ;;
+      esac ;;
+    crisalix)
+      case "$env" in
+        local)      url="http://crisalix.local:3005" ;;
+        staging)    url="https://crisalix-staging.crisalix.com" ;;
+        production) url="https://crisalix.com" ;;
+      esac ;;
+    sso)
+      case "$env" in
+        local)      url="http://sso.crisalix.local:3007" ;;
+        staging)    url="https://sso-staging.crisalix.com" ;;
+        production) url="https://sso.crisalix.com" ;;
+      esac ;;
+    my)
+      case "$env" in
+        local)      url="http://my.crisalix.local:3008" ;;
+        staging)    url="https://my-staging.crisalix.com" ;;
+        production) url="https://my.crisalix.com" ;;
+      esac ;;
+    *)
+      echo "App '$app' no mapeada. Añadir caso en sh_functions."
+      return 1 ;;
+  esac
+
+  if [[ -n "$url" ]]; then
+    setsid firefox --new-tab "$url" > /dev/null 2>&1 &
+  else
+    echo "Entorno '$env' no válido para app '$app'."
+    return 1
+  fi
+}

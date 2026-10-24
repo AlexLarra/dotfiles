@@ -1,7 +1,8 @@
 #!/bin/zsh
 
-tmux new -s work -d
+firefox --new-tab "https://app.slack.com/client/T025ARX9E/D19PXDVCJ" --new-tab "https://mail.google.com/mail/u/0/#inbox" & disown
 
+tmux new -s work -n admin -d
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
@@ -11,7 +12,7 @@ tmux send-keys -t work 'cd ~/workspace/admin && clear' C-m
 tmux resize-pane -D 7
 tmux select-pane -t 1
 
-tmux new-window -t work
+tmux new-window -t work -n estetix
 tmux send-keys -t work 'cd ~/workspace/estetix && clear' C-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/estetix && clear' C-m
@@ -21,7 +22,7 @@ tmux send-keys -t work 'cd ~/workspace/estetix && clear' C-m
 tmux resize-pane -D 7
 tmux select-pane -t 1
 
-tmux new-window -t work
+tmux new-window -t work -n crisalix
 tmux send-keys -t work 'cd ~/workspace/crisalix && clear' C-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/crisalix && clear' C-m
@@ -31,7 +32,7 @@ tmux send-keys -t work 'cd ~/workspace/crisalix && clear' C-m
 tmux resize-pane -D 7
 tmux select-pane -t 1
 
-tmux new-window -t work
+tmux new-window -t work -n sso
 tmux send-keys -t work 'cd ~/workspace/SSO && clear' C-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/SSO && clear' C-m
@@ -41,7 +42,7 @@ tmux send-keys -t work 'cd ~/workspace/SSO && clear' C-m
 tmux resize-pane -D 7
 tmux select-pane -t 1
 
-tmux new-window -t work
+tmux new-window -t work -n my
 tmux send-keys -t work 'cd ~/workspace/my && clear' C-m
 tmux split-window -v
 tmux send-keys -t work 'cd ~/workspace/my && clear' C-m
