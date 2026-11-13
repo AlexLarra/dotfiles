@@ -554,3 +554,54 @@ function openapp() {
     return 1
   fi
 }
+
+# Copia cualquier valor al portapapeles
+# Uso: copy_clip <valor>
+copy_clip() {
+  local value="$1"
+
+  if [[ -z "$value" ]]; then
+    echo "Uso: copy_clip <valor>" >&2
+    return 1
+  fi
+
+  if ! command -v wl-copy >/dev/null 2>&1; then
+    echo "wl-copy no está instalado" >&2
+    return 1
+  fi
+
+  printf '%s' "$value" | wl-copy
+}
+
+# Resuelve el último commit de un branch sin cambiar el branch actual
+# Uso: commit_for [branch]  (por defecto master)
+commit_for() {
+  local branch="${1:-master}"
+
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "No estás dentro de un repositorio Git." >&2
+    return 1
+  fi
+
+  if ! git fetch --quiet --no-tags origin "refs/heads/$branch"; then
+    echo "No se pudo hacer fetch de origin/$branch" >&2
+    return 1
+  fi
+
+  git rev-parse --verify 'FETCH_HEAD^{commit}'
+}
+
+# Levanta una consola de producción para un branch y copia el comando de Rails
+# Uso: proconsole [branch]  (por defecto master)
+proconsole() {
+  local branch="${1:-master}"
+  local commit
+
+  commit=$(commit_for "$branch") || return 1
+  copy_clip "bundle exec rails c -e production" || return 1
+
+  echo "Branch: $branch"
+  echo "Commit: $(git log -1 --format='%h %s' "$commit")"
+
+  crisalix-cli login && crisalix-cli console -e production --no-purge --commit "$commit"
+}
