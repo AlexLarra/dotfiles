@@ -27,3 +27,5 @@
   lg = log --oneline --graph --decorate
 [init]
 	defaultBranch = master
+[url "git@github.com:"]
+	insteadOf = https://github.com/
