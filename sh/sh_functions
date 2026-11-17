@@ -605,3 +605,61 @@ proconsole() {
 
   crisalix-cli login && crisalix-cli console -e production --no-purge --commit "$commit"
 }
+
+# Borra branches locales cuyo upstream en origin ya no existe ([gone])
+# Uso: gbr [-n|--dry-run]
+gbr() {
+  local dry_run=false
+  [[ "$1" == "-n" || "$1" == "--dry-run" ]] && dry_run=true
+
+  if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+    echo "No estás dentro de un repositorio Git." >&2
+    return 1
+  fi
+
+  local remote="origin"
+  if ! git remote get-url "$remote" >/dev/null 2>&1; then
+    echo "El remote '$remote' no existe." >&2
+    return 1
+  fi
+
+  if ! git fetch --prune --quiet "$remote"; then
+    echo "git fetch --prune $remote falló." >&2
+    return 1
+  fi
+
+  local current
+  current=$(git symbolic-ref --quiet --short HEAD)
+
+  local -a gone
+  gone=(${(f)"$(git for-each-ref --format='%(refname:short)%09%(upstream:track)' refs/heads \
+    | awk -F'\t' '$2 == "[gone]" {print $1}')"})
+
+  if (( ${#gone} == 0 )); then
+    echo "No hay branches huérfanos."
+    return 0
+  fi
+
+  local branch
+  local -i removed=0
+  for branch in "${gone[@]}"; do
+    if [[ "$branch" == "$current" ]]; then
+      echo "Skipping current branch: $branch"
+      continue
+    fi
+
+    if $dry_run; then
+      echo "$branch"
+      continue
+    fi
+
+    if git branch -D "$branch" >/dev/null 2>&1; then
+      echo "Deleted: $branch"
+      removed+=1
+    else
+      echo "No se pudo borrar (worktree u otro motivo): $branch" >&2
+    fi
+  done
+
+  $dry_run || echo "Branches borrados: $removed"
+}
