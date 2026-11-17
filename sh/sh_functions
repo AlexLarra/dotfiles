@@ -663,3 +663,22 @@ gbr() {
 
   $dry_run || echo "Branches borrados: $removed"
 }
+
+# Deploya a producción el último commit de un branch
+# Uso: prodeploy [branch]  (por defecto master)
+prodeploy() {
+  local branch="${1:-master}"
+  local commit
+
+  commit=$(commit_for "$branch") || return 1
+
+  echo "Branch: $branch"
+  echo "Commit: $(git log -1 --format='%h %s' "$commit")"
+
+  if crisalix-cli login && crisalix-cli deploy -e production --commit "$commit"; then
+    notify-send "Deploy" "Deployado en production: $branch"
+  else
+    notify-send "Deploy" "Error al deployar en production: $branch" --urgency=critical
+    return 1
+  fi
+}
